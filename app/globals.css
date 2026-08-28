@@ -64,3 +64,10 @@
 .sigil-status{right:8%;bottom:0;color:#666}
 .sigil-01 .sigil-field{background:none}.sigil-01 .orbit-a{transform:rotate(-24deg)}.sigil-01 .orbit-b{display:none}.sigil-02 .orbit-a{width:57%;height:35%;transform:rotate(24deg)}.sigil-02 .orbit-b{width:48%;height:56%;transform:rotate(-42deg);opacity:.48}.sigil-03 .orbit-a{width:68%;height:23%;transform:rotate(-6deg)}.sigil-03 .orbit-b{width:28%;height:62%;transform:rotate(78deg);opacity:.32}
 @media(max-width:900px){.project-visual{min-height:300px}.project-sigil{width:min(88%,560px)}}
+/* Floating icon only */
+.project-visual{min-height:360px;padding-bottom:22px}
+.project-sigil{width:min(58%,480px);aspect-ratio:1}
+.sigil-field{inset:0;background:transparent!important;border:0!important;box-shadow:none!important}
+.sigil-field>b,.sigil-field>em,.sigil-status{display:none}
+.project-sigil:hover .sigil-field{box-shadow:none!important}
+@media(max-width:900px){.project-visual{min-height:260px}.project-sigil{width:min(62%,380px)}}
