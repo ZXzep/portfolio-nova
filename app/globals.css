@@ -75,3 +75,10 @@
 .project-visual>a.project-sigil{position:relative;display:block;width:min(58%,480px);height:auto;aspect-ratio:1;overflow:visible;border:0!important;background:transparent!important;box-shadow:none!important;transform:none!important}
 .project-visual>a.project-sigil:hover{border:0!important;background:transparent!important;box-shadow:none!important;transform:none!important}
 @media(max-width:900px){.project-visual>a.project-sigil{width:min(62%,380px);height:auto}}
+/* Compact featured composition */
+.project{width:min(1120px,100%);margin-inline:auto;grid-template-columns:minmax(300px,430px) minmax(0,520px);justify-content:center;gap:clamp(34px,4vw,68px);min-height:62vh}
+.project-visual{min-height:320px;padding:0;justify-content:flex-end}
+.project-visual>a.project-sigil{width:min(88%,390px)}
+.project-copy{width:100%;max-width:520px}
+.projects{gap:12vh}
+@media(max-width:900px){.project{width:100%;grid-template-columns:1fr;gap:12px}.project-visual{min-height:250px;justify-content:center}.project-visual>a.project-sigil{width:min(62%,340px)}.projects{gap:14vh}}
