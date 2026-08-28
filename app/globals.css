@@ -71,3 +71,7 @@
 .sigil-field>b,.sigil-field>em,.sigil-status{display:none}
 .project-sigil:hover .sigil-field{box-shadow:none!important}
 @media(max-width:900px){.project-visual{min-height:260px}.project-sigil{width:min(62%,380px)}}
+/* Remove legacy screenshot container from floating sigils */
+.project-visual>a.project-sigil{position:relative;display:block;width:min(58%,480px);height:auto;aspect-ratio:1;overflow:visible;border:0!important;background:transparent!important;box-shadow:none!important;transform:none!important}
+.project-visual>a.project-sigil:hover{border:0!important;background:transparent!important;box-shadow:none!important;transform:none!important}
+@media(max-width:900px){.project-visual>a.project-sigil{width:min(62%,380px);height:auto}}
