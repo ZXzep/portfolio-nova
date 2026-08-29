@@ -17,11 +17,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const p = projectBySlug(slug);
   if (!p) return { title: 'Project not found' };
+  // `images` is intentionally omitted so Next picks up the co-located
+  // opengraph-image / twitter-image route handlers.
   return {
-    title: `${p.title} — Punnathat Samoprong`,
+    title: p.title,
     description: p.summary.en,
-    openGraph: { title: p.title, description: p.summary.en, images: [] },
-    twitter: { title: p.title, description: p.summary.en, images: [] },
+    alternates: { canonical: `/work/${p.slug}` },
+    openGraph: {
+      type: 'article',
+      title: `${p.title} — Punnathat Samoprong`,
+      description: p.summary.en,
+      url: `/work/${p.slug}`,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${p.title} — Punnathat Samoprong`,
+      description: p.summary.en,
+    },
   };
 }
 
