@@ -307,7 +307,7 @@ html[lang="th"] .modal-header h3 em{font-family:var(--font-thai),Georgia,serif;f
 }
 .trajectory-beam{display:none}
 .trajectory-stop.stop-1{margin-top:230px}.trajectory-stop.stop-2{margin-top:32px}.trajectory-stop.stop-3{margin-top:220px}.trajectory-stop.stop-1 article,.trajectory-stop.stop-2 article{background:linear-gradient(135deg,rgba(255,255,255,.035),rgba(255,255,255,.008));border-color:rgba(142,108,255,.2)}.trajectory-stop.stop-3 article{border-color:rgba(255,255,255,.45);background:linear-gradient(135deg,rgba(142,108,255,.16),rgba(156,255,113,.045));box-shadow:0 0 30px rgba(142,108,255,.18)}.trajectory-node{top:-7px}.stop-1 .trajectory-node{left:22%;opacity:.58}.stop-2 .trajectory-node{left:48%;opacity:.8}.stop-3 .trajectory-node{left:auto;right:4%;border-color:#fff;background:#fff;box-shadow:0 0 0 8px rgba(142,108,255,.14),0 0 34px #a78fff}.trajectory-stop.stop-1 article:before,.trajectory-stop.stop-2 article:before{content:"PAST / TRAIL";position:absolute;right:18px;top:18px;font:8px var(--font-mono);letter-spacing:.17em;color:#625a82}.trajectory-stop.stop-3 article:before{content:"CURRENT / COMET HEAD";position:absolute;right:18px;top:18px;font:8px var(--font-mono);letter-spacing:.17em;color:#caffb4}
-@media(max-width:900px){.trajectory{display:flex;min-height:0;padding-left:42px}.trajectory-line{left:12px;right:auto;top:0;bottom:0;width:2px;height:auto;background:linear-gradient(180deg,transparent,rgba(142,108,255,.6) 20%,#fff)}.trajectory-stop.stop-1,.trajectory-stop.stop-2,.trajectory-stop.stop-3{margin-top:0}.trajectory-node,.stop-1 .trajectory-node,.stop-2 .trajectory-node,.stop-3 .trajectory-node{left:-37px;right:auto;top:28px}.trajectory-stop.stop-1 article:before,.trajectory-stop.stop-2 article:before,.trajectory-stop.stop-3 article:before{content:none}}
+@media(max-width:900px){.trajectory{display:flex;min-height:0;padding-left:42px}.trajectory-line{left:10px;right:auto;top:0;bottom:60px;width:2px;height:auto;background:linear-gradient(180deg,transparent,rgba(142,108,255,.6) 18%,rgba(167,143,255,.9) 90%,#fff)}.trajectory-stop.stop-1,.trajectory-stop.stop-2,.trajectory-stop.stop-3{margin-top:0}.trajectory-node,.stop-1 .trajectory-node,.stop-2 .trajectory-node,.stop-3 .trajectory-node{left:-37px;right:auto;top:28px}.trajectory-stop.stop-1 article:before,.trajectory-stop.stop-2 article:before,.trajectory-stop.stop-3 article:before{content:none}}
 
 /* Mother Comet Leader (หัวขวาสุด) */
 .mother-comet{
@@ -375,16 +375,28 @@ html[lang="th"] .modal-header h3 em{font-family:var(--font-thai),Georgia,serif;f
    upright and sit it on the line — head trailing down toward "now", tail
    pointing up — instead of the desktop horizontal streak. */
 @media (max-width: 900px){
+  /* built vertically (no rotate) so it lands exactly on the line's end */
   .mother-comet{
-    right:auto; left:1px; top:auto; bottom:80px;
-    width:180px; height:40px;
-    transform:translateX(-50%) rotate(90deg);
-    transform-origin:center;
+    right:auto; left:1px; top:auto; bottom:-15px;
+    width:auto; height:auto;
+    transform:translateX(-50%);
+    flex-direction:column; align-items:center; justify-content:flex-end;
   }
-  .mother-tail{animation:none}
-  .mother-aura{animation:none}
-  /* tighter glow so it doesn't get clipped by the section / viewport edge */
-  .mother-core{box-shadow:0 0 10px 2px #ffffff, 0 0 20px 6px #a78fff, 0 0 34px 10px rgba(142,108,255,0.65)}
+  .mother-tail{
+    position:relative; right:auto; left:auto; top:auto; bottom:auto;
+    transform:none; animation:none;
+    width:3px; height:130px;
+    background:linear-gradient(180deg,transparent,rgba(167,143,255,.85) 65%,#ffffff);
+    filter:drop-shadow(0 0 6px #8e6cff);
+  }
+  .mother-core{
+    margin-top:-5px;
+    box-shadow:0 0 10px 2px #ffffff, 0 0 20px 6px #a78fff, 0 0 34px 10px rgba(142,108,255,0.6);
+  }
+  .mother-aura{
+    right:auto; left:50%; top:auto; bottom:-4px;
+    transform:translateX(-50%); animation:none;
+  }
 }
 
 /* Baby Comets Shower (ฝูงลูกดาวหางลอยตามลู่) */
