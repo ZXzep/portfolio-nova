@@ -124,8 +124,8 @@ function TrajectoryField() {
           g.stroke();
         };
       } else {
-        const sx = W * 0.02, mx = Math.min(W - 96, W * 0.9), ly = H * 0.48;
-        const xk = W * 0.7;
+        const sx = W * 0.03, mx = Math.min(W - 280, W * 0.8), ly = H * 0.5;
+        const xk = W * 0.62;
         mother = { x: mx, y: ly + bob };
         dir = { x: -1, y: 0 };
         lineStart = { x: sx, y: ly }; lineEnd = { x: xk, y: ly };
@@ -154,14 +154,14 @@ function TrajectoryField() {
       lg.addColorStop(0.28, 'rgba(168,138,255,0.66)');
       lg.addColorStop(0.72, 'rgba(202,184,255,0.96)');
       lg.addColorStop(1, 'rgba(255,255,255,1)');
-      strokeLine(vert ? 18 : 22, 'rgba(142,108,255,0.14)');
-      strokeLine(vert ? 3.6 : 4.4, lg);
+      strokeLine(vert ? 22 : 30, 'rgba(142,108,255,0.13)');
+      strokeLine(vert ? 4 : 5.4, lg);
       g.save();
       g.globalCompositeOperation = 'lighter';
       const wg = g.createLinearGradient(nodeAt(1).x, nodeAt(1).y, mother.x, mother.y);
       wg.addColorStop(0, 'rgba(200,180,255,0)');
-      wg.addColorStop(1, 'rgba(255,255,255,0.55)');
-      strokeLine(vert ? 10 : 12, wg);
+      wg.addColorStop(1, 'rgba(255,255,255,0.6)');
+      strokeLine(vert ? 12 : 16, wg);
       g.restore();
 
       // pulse travelling toward the present
@@ -182,7 +182,7 @@ function TrajectoryField() {
         const p = nodeAt(s.nf);
         const hov = openRef.current === i + 1;
         const pulse = 0.8 + 0.2 * Math.sin(t * 0.05 + i * 1.7);
-        const glowR = (hov ? 46 : 27) * pulse;
+        const glowR = (hov ? 74 : 46) * pulse;
         const ng = g.createRadialGradient(p.x, p.y, 0, p.x, p.y, glowR);
         ng.addColorStop(0, rgba(s.accent, hov ? 0.85 : 0.4));
         ng.addColorStop(0.5, rgba(s.accent, hov ? 0.28 : 0.1));
@@ -193,14 +193,14 @@ function TrajectoryField() {
 
       // comets: two babies with their own tails, then the mother (tail = the line)
       const my = mother.y;
-      const b1 = { x: mother.x + (vert ? -16 : -46), y: my + (vert ? -40 : -78) + Math.sin(t * 0.024) * 8 };
-      const b2 = { x: mother.x + (vert ? 15 : 30), y: my + (vert ? 30 : 66) + Math.cos(t * 0.02) * 10 };
-      comet(b1.x, b1.y, dir.x, dir.y, vert ? 46 : 140, vert ? 4.5 : 8, vert ? 4 : 7, '#ccb9ff');
-      comet(b2.x, b2.y, dir.x, dir.y, vert ? 38 : 118, vert ? 4 : 7, vert ? 3.5 : 6, '#bba6ff');
+      const b1 = { x: mother.x + (vert ? -24 : -196), y: my + (vert ? -56 : -150) + Math.sin(t * 0.024) * 11 };
+      const b2 = { x: mother.x + (vert ? 22 : 72), y: my + (vert ? 46 : 128) + Math.cos(t * 0.02) * 13 };
+      comet(b1.x, b1.y, dir.x, dir.y, vert ? 62 : 260, vert ? 7 : 16, vert ? 6 : 15, '#ccb9ff');
+      comet(b2.x, b2.y, dir.x, dir.y, vert ? 50 : 210, vert ? 6 : 13, vert ? 5.5 : 12, '#bba6ff');
       // two soft wisps trailing the mother for volume, then her head
-      drawHead(mother.x + dir.x * (vert ? 16 : 30), my + dir.y * (vert ? 16 : 30), vert ? 8 : 13, '#ad96ff');
-      drawHead(mother.x + dir.x * (vert ? 32 : 58), my + dir.y * (vert ? 32 : 58), vert ? 5 : 8, '#9c85f5');
-      drawHead(mother.x, my, vert ? 14 : 24, '#c8b3ff');
+      drawHead(mother.x + dir.x * (vert ? 26 : 56), my + dir.y * (vert ? 26 : 56), vert ? 13 : 26, '#ad96ff');
+      drawHead(mother.x + dir.x * (vert ? 52 : 112), my + dir.y * (vert ? 52 : 112), vert ? 9 : 17, '#9c85f5');
+      drawHead(mother.x, my, vert ? 22 : 44, '#c8b3ff');
 
       // sparks shed by every comet head
       if (!reduced && t % 3 === 0) {
