@@ -46,7 +46,7 @@ function TrajectoryField() {
       const p = c.parentElement;
       if (!p) return;
       W = p.clientWidth; H = p.clientHeight;
-      vert = W < 1024;
+      vert = W < 1100;
       const d = Math.min(devicePixelRatio, 1.5);
       c.width = W * d; c.height = H * d;
       c.style.width = W + 'px'; c.style.height = H + 'px';
