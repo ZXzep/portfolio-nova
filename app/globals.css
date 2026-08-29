@@ -331,167 +331,10 @@ html[lang="th"] .modal-header h3 em{font-family:var(--font-thai),Georgia,serif;f
 .ico-lg{width:1.5em;height:1.5em}
 
 /* Career trajectory */
-.experience{display:flex;flex-direction:column;justify-content:center}.trajectory-heading{max-width:100%;margin-bottom:54px}.trajectory-heading h2{margin:18px 0 22px}.trajectory-heading>p:last-child{max-width:760px;color:#aaa9b4;font-size:var(--fs-lead);line-height:1.65}.trajectory{position:relative;min-height:430px;display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(24px,4vw,72px);padding:20px 3vw 0}.trajectory-line{position:absolute;left:3%;right:3%;top:49%;height:2px;transform:rotate(-5deg);transform-origin:center;background:linear-gradient(90deg,transparent,rgba(142,108,255,.3) 12%,rgba(167,143,255,.82) 67%,rgba(156,255,113,.72) 92%,transparent);box-shadow:0 0 18px rgba(142,108,255,.4)}.trajectory-line:before{content:"";position:absolute;inset:-18px 0;background:linear-gradient(90deg,transparent,rgba(142,108,255,.08),rgba(156,255,113,.08),transparent);filter:blur(10px)}.trajectory-beam{position:absolute;right:0;top:50%;width:150px;height:2px;transform:translateY(-50%);background:linear-gradient(90deg,transparent,#a78fff 58%,#fff);filter:drop-shadow(0 0 8px #8e6cff);animation:trajectoryBeam 3.8s cubic-bezier(.45,0,.2,1) infinite}.trajectory-stop{position:relative;z-index:2}.trajectory-stop article{position:relative;min-height:190px;padding:25px 26px 24px;border-top:1px solid rgba(255,255,255,.14);background:linear-gradient(135deg,rgba(255,255,255,.055),rgba(255,255,255,.012));backdrop-filter:blur(12px);transition:.35s cubic-bezier(.16,1,.3,1)}.trajectory-stop article:hover{transform:translateY(-8px);border-color:rgba(167,143,255,.6);box-shadow:0 20px 55px rgba(0,0,0,.38),0 0 35px rgba(142,108,255,.12)}.trajectory-stop.stop-1{margin-top:176px}.trajectory-stop.stop-2{margin-top:105px}.trajectory-stop.stop-3{margin-top:34px}.trajectory-stop.stop-3 article{border-color:rgba(156,255,113,.45);background:linear-gradient(135deg,rgba(156,255,113,.09),rgba(142,108,255,.035));box-shadow:0 0 42px rgba(156,255,113,.08)}.trajectory-date{font:var(--fs-label-sm) var(--font-mono);letter-spacing:.18em;color:#8f8e99}.trajectory-node{position:absolute;left:24px;top:-8px;width:14px;height:14px;border-radius:50%;background:#08080b;border:2px solid #a78fff;box-shadow:0 0 0 6px rgba(142,108,255,.09),0 0 22px #8e6cff}.stop-3 .trajectory-node{border-color:#9cff71;box-shadow:0 0 0 7px rgba(156,255,113,.1),0 0 28px #9cff71}.trajectory-stop article>p{margin:17px 0 7px;font:var(--fs-label-sm) var(--font-mono);letter-spacing:.14em;color:#a78fff}.trajectory-stop h3{margin:0 0 16px;font-size:clamp(24px,2.3vw,38px);line-height:1;letter-spacing:-.045em}.trajectory-stop small{display:block;color:#aaa9b4;font-size:13px;line-height:1.62}.trajectory-stop.stop-3 h3{color:#caffb4}@keyframes trajectoryBeam{0%{right:100%;opacity:0;width:40px}18%{opacity:1;width:110px}82%{opacity:.95}100%{right:-1%;opacity:0;width:190px}}
-@media(max-width:900px){.experience{justify-content:flex-start}.trajectory-heading{margin-bottom:38px}.trajectory{display:flex;flex-direction:column;min-height:0;gap:24px;padding:12px 0 0 42px}.trajectory-line{left:12px;right:auto;top:0;bottom:0;width:2px;height:auto;transform:none;background:linear-gradient(180deg,transparent,rgba(142,108,255,.8) 15%,rgba(156,255,113,.72) 90%,transparent)}.trajectory-beam{display:none}.trajectory-stop.stop-1,.trajectory-stop.stop-2,.trajectory-stop.stop-3{margin-top:0}.trajectory-stop article{min-height:0}.trajectory-node{left:-37px;top:28px}}
-@media(max-width:600px){.trajectory-heading h2{font-size:13vw}.trajectory{padding-left:34px}.trajectory-stop article{padding:22px 20px}.trajectory-node{left:-29px}}
-/* Straight comet trajectory */
-/* Trajectory Timeline Base Beam */
-.trajectory{grid-template-columns:.82fr .92fr 1.26fr;min-height:410px;align-items:start}
-.trajectory-line{
-  position:absolute;
-  left:1%;
-  right:4%;
-  top:47%;
-  height:2px;
-  transform:none;
-  background:linear-gradient(90deg, transparent 0%, rgba(142,108,255,0.25) 15%, rgba(167,143,255,0.7) 75%, #ffffff 100%);
-  box-shadow:0 0 12px rgba(167,143,255,0.5), 0 0 25px rgba(142,108,255,0.3);
-}
-.trajectory-beam{display:none}
-.trajectory-stop.stop-1{margin-top:230px}.trajectory-stop.stop-2{margin-top:32px}.trajectory-stop.stop-3{margin-top:220px}.trajectory-stop.stop-1 article,.trajectory-stop.stop-2 article{background:linear-gradient(135deg,rgba(255,255,255,.035),rgba(255,255,255,.008));border-color:rgba(142,108,255,.2)}.trajectory-stop.stop-3 article{border-color:rgba(255,255,255,.45);background:linear-gradient(135deg,rgba(142,108,255,.16),rgba(156,255,113,.045));box-shadow:0 0 30px rgba(142,108,255,.18)}.trajectory-node{top:-7px}.stop-1 .trajectory-node{left:22%;opacity:.58}.stop-2 .trajectory-node{left:48%;opacity:.8}.stop-3 .trajectory-node{left:auto;right:4%;border-color:#fff;background:#fff;box-shadow:0 0 0 8px rgba(142,108,255,.14),0 0 34px #a78fff}.trajectory-stop.stop-1 article:before,.trajectory-stop.stop-2 article:before{content:"PAST / TRAIL";position:absolute;right:18px;top:18px;font:var(--fs-label-sm) var(--font-mono);letter-spacing:.17em;color:#625a82}.trajectory-stop.stop-3 article:before{content:"CURRENT / COMET HEAD";position:absolute;right:18px;top:18px;font:var(--fs-label-sm) var(--font-mono);letter-spacing:.17em;color:#caffb4}
-@media(max-width:900px){.trajectory{display:flex;min-height:0;padding-left:42px}.trajectory-line{left:10px;right:auto;top:0;bottom:60px;width:2px;height:auto;background:linear-gradient(180deg,transparent,rgba(142,108,255,.6) 18%,rgba(167,143,255,.9) 90%,#fff)}.trajectory-stop.stop-1,.trajectory-stop.stop-2,.trajectory-stop.stop-3{margin-top:0}.trajectory-node,.stop-1 .trajectory-node,.stop-2 .trajectory-node,.stop-3 .trajectory-node{left:-37px;right:auto;top:28px}.trajectory-stop.stop-1 article:before,.trajectory-stop.stop-2 article:before,.trajectory-stop.stop-3 article:before{content:none}}
-
-/* Mother Comet Leader (หัวขวาสุด) */
-.mother-comet{
-  position:absolute;
-  right:-18px;
-  top:50%;
-  transform:translateY(-50%);
-  width:220px;
-  height:40px;
-  pointer-events:none;
-  z-index:4;
-  display:flex;
-  align-items:center;
-  justify-content:flex-end;
-}
-.mother-tail{
-  position:absolute;
-  right:16px;
-  top:50%;
-  transform:translateY(-50%);
-  width:220px;
-  height:6px;
-  border-radius:999px;
-  background:linear-gradient(90deg, transparent 0%, rgba(142,108,255,0.15) 25%, rgba(115,178,255,0.6) 65%, rgba(238,251,255,0.95) 90%, #ffffff 100%);
-  filter:drop-shadow(0 0 8px #8e6cff) drop-shadow(0 0 18px rgba(167,143,255,0.8));
-  animation:motherTailGlow 3s ease-in-out infinite alternate;
-}
-.mother-core{
-  position:relative;
-  z-index:2;
-  width:28px;
-  height:28px;
-  border-radius:50%;
-  background:radial-gradient(circle at 40% 40%, #ffffff 0%, #eefbff 35%, #a78fff 70%, #8e6cff 100%);
-  box-shadow:0 0 12px 3px #ffffff, 0 0 26px 8px #a78fff, 0 0 55px 18px rgba(142,108,255,0.8), 0 0 90px 30px rgba(255,93,130,0.5);
-  animation:motherCorePulse 2.8s ease-in-out infinite alternate;
-}
-.mother-aura{
-  position:absolute;
-  right:-4px;
-  top:50%;
-  transform:translateY(-50%);
-  width:36px;
-  height:36px;
-  border-radius:50%;
-  border:1px dashed rgba(255,255,255,0.6);
-  box-shadow:0 0 20px rgba(167,143,255,0.5);
-  animation:motherAuraRotate 8s linear infinite;
-}
-
-@keyframes motherTailGlow{
-  0%{opacity:0.75; transform:translateY(-50%) scaleY(0.85);}
-  100%{opacity:1; transform:translateY(-50%) scaleY(1.15);}
-}
-@keyframes motherCorePulse{
-  0%{transform:scale(0.92); filter:brightness(0.95);}
-  100%{transform:scale(1.1); filter:brightness(1.2);}
-}
-@keyframes motherAuraRotate{
-  0%{transform:translateY(-50%) rotate(0deg);}
-  100%{transform:translateY(-50%) rotate(360deg);}
-}
-
-/* On phones the trajectory line runs top-to-bottom, so stand the comet
-   upright and sit it on the line — head trailing down toward "now", tail
-   pointing up — instead of the desktop horizontal streak. */
-@media (max-width: 900px){
-  /* built vertically (no rotate) so it lands exactly on the line's end */
-  .mother-comet{
-    right:auto; left:1px; top:auto; bottom:-15px;
-    width:auto; height:auto;
-    transform:translateX(-50%);
-    flex-direction:column; align-items:center; justify-content:flex-end;
-  }
-  .mother-tail{
-    position:relative; right:auto; left:auto; top:auto; bottom:auto;
-    transform:none; animation:none;
-    width:3px; height:130px;
-    background:linear-gradient(180deg,transparent,rgba(167,143,255,.85) 65%,#ffffff);
-    filter:drop-shadow(0 0 6px #8e6cff);
-  }
-  .mother-core{
-    margin-top:-5px;
-    box-shadow:0 0 10px 2px #ffffff, 0 0 20px 6px #a78fff, 0 0 34px 10px rgba(142,108,255,0.6);
-  }
-  .mother-aura{
-    right:auto; left:50%; top:auto; bottom:-4px;
-    transform:translateX(-50%); animation:none;
-  }
-}
-
-/* Baby Comets Shower (ฝูงลูกดาวหางลอยตามลู่) */
-.baby-comet-shower{position:absolute;inset:0;pointer-events:none;z-index:3}
-.baby-comet{position:absolute;display:flex;align-items:center;pointer-events:none;animation:babyCometDrift 4.5s ease-in-out infinite alternate}
-.baby-comet .tail{
-  height:2px;
-  border-radius:999px;
-  margin-right:-2px;
-  filter:blur(0.5px);
-}
-.baby-comet .core{
-  border-radius:50%;
-  background:#ffffff;
-  flex:none;
-}
-
-/* Baby 1 (Cyan/White - Top Right) */
-.baby-comet.b1{right:50px;top:-28px;animation-duration:3.2s}
-.baby-comet.b1 .tail{width:110px;background:linear-gradient(90deg,transparent,rgba(115,178,255,0.4) 40%,#ffffff);box-shadow:0 0 6px #73b2ff}
-.baby-comet.b1 .core{width:10px;height:10px;box-shadow:0 0 8px #ffffff,0 0 16px #73b2ff}
-
-/* Baby 2 (Magenta/Violet - Bottom) */
-.baby-comet.b2{right:120px;top:22px;animation-duration:4.8s;animation-delay:-1.2s}
-.baby-comet.b2 .tail{width:130px;background:linear-gradient(90deg,transparent,rgba(255,93,130,0.4) 40%,#ffffff);box-shadow:0 0 6px #ff5d82}
-.baby-comet.b2 .core{width:12px;height:12px;box-shadow:0 0 10px #ffffff,0 0 20px #ff5d82}
-
-/* Baby 3 (Violet/White - Far Top) */
-.baby-comet.b3{right:210px;top:-42px;animation-duration:3.9s;animation-delay:-2.4s}
-.baby-comet.b3 .tail{width:90px;background:linear-gradient(90deg,transparent,rgba(167,143,255,0.4) 40%,#ffffff);box-shadow:0 0 6px #a78fff}
-.baby-comet.b3 .core{width:8px;height:8px;box-shadow:0 0 6px #ffffff,0 0 14px #a78fff}
-
-/* Baby 4 (Green/Cyan - Bottom Trailing) */
-.baby-comet.b4{right:310px;top:30px;animation-duration:5.4s;animation-delay:-0.8s}
-.baby-comet.b4 .tail{width:140px;background:linear-gradient(90deg,transparent,rgba(156,255,113,0.4) 40%,#ffffff);box-shadow:0 0 6px #9cff71}
-.baby-comet.b4 .core{width:9px;height:9px;box-shadow:0 0 8px #ffffff,0 0 16px #9cff71}
-
-/* Baby 5 (White Star - Far Left) */
-.baby-comet.b5{right:430px;top:-15px;animation-duration:4.1s;animation-delay:-3.1s;opacity:0.8}
-.baby-comet.b5 .tail{width:80px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3) 40%,#ffffff);box-shadow:0 0 4px #ffffff}
-.baby-comet.b5 .core{width:6px;height:6px;box-shadow:0 0 6px #ffffff}
-
-@keyframes babyCometDrift{
-  0%{transform:translate(0,0) scale(0.92);filter:brightness(1)}
-  50%{transform:translate(-10px,-4px) scale(1.08);filter:brightness(1.25)}
-  100%{transform:translate(6px,4px) scale(0.96);filter:brightness(1.05)}
-}
-@media(max-width:900px){.baby-comet-shower{display:none}}
-/* Refined comet tail: remove the large light plane */
-.trajectory-line:before{display:none}.trajectory-beam{height:4px;clip-path:none;background:linear-gradient(90deg,transparent 0%,rgba(108,79,220,.08) 22%,rgba(142,108,255,.32) 58%,rgba(190,210,255,.72) 86%,#fff 100%);filter:blur(3px) drop-shadow(0 0 8px rgba(142,108,255,.8));opacity:.72}.trajectory-line:after{height:1px;right:42px;background:linear-gradient(90deg,transparent,rgba(142,108,255,.16) 24%,rgba(167,143,255,.52) 76%,rgba(235,245,255,.88));box-shadow:0 0 8px rgba(142,108,255,.55)}
-@media(max-width:900px){.trajectory-beam{width:4px;height:auto;clip-path:none;filter:blur(3px) drop-shadow(0 0 8px rgba(142,108,255,.75))}}
-/* Lead polish: career notes instead of dashboard cards */
-.trajectory-stop article,.trajectory-stop.stop-1 article,.trajectory-stop.stop-2 article,.trajectory-stop.stop-3 article{min-height:0;padding:18px 20px 20px;background:linear-gradient(90deg,rgba(5,5,8,.88),rgba(5,5,8,.36) 72%,transparent);backdrop-filter:none;border:0;border-left:1px solid rgba(167,143,255,.3);box-shadow:none}.trajectory-stop.stop-3 article{border-left-color:rgba(156,255,113,.72);background:linear-gradient(90deg,rgba(8,12,10,.92),rgba(8,12,10,.34) 74%,transparent)}.trajectory-stop article:hover{transform:translateY(-4px);border-color:#a78fff;box-shadow:none}.trajectory-stop.stop-3 article:hover{border-color:#9cff71}.trajectory-stop article:before{display:none!important}.trajectory-stop h3{margin-bottom:10px}.trajectory-stop small{max-width:440px}.trajectory-node,.stop-1 .trajectory-node,.stop-2 .trajectory-node,.stop-3 .trajectory-node{width:10px;height:10px;box-shadow:0 0 0 4px rgba(142,108,255,.08),0 0 15px rgba(142,108,255,.8)}.identity-copy{align-self:center}.identity-copy .lead{max-width:760px}
+.experience{display:flex;flex-direction:column;justify-content:center}.trajectory-heading{max-width:100%;margin-bottom:54px}.trajectory-heading h2{margin:18px 0 22px}.trajectory-heading>p:last-child{max-width:760px;color:#aaa9b4;font-size:var(--fs-lead);line-height:1.65}
+@media(max-width:900px){.experience{justify-content:flex-start}.trajectory-heading{margin-bottom:38px}}
+@media(max-width:600px){.trajectory-heading h2{font-size:13vw}}
+.identity-copy{align-self:center}.identity-copy .lead{max-width:760px}
 .contact-button{margin:36px 0;height:52px;padding:0 28px;border-radius:9999px;border:1px solid rgba(142,108,255,.5);background:linear-gradient(135deg,rgba(142,108,255,.16),rgba(142,108,255,.04));color:#f5f3ee;display:inline-flex;align-items:center;justify-content:center;gap:18px;font:var(--fs-label) var(--font-mono);letter-spacing:.16em;font-weight:500;backdrop-filter:blur(12px);box-shadow:0 0 30px #8e6cff2b,inset 0 0 15px #8e6cff1f;transition:.4s cubic-bezier(.16,1,.3,1)}.contact-button b{font-weight:400;font-size:var(--fs-body);color:#8e6cff;transition:.3s cubic-bezier(.16,1,.3,1)}.contact-button:hover{background:#8e6cff;color:#050505;border-color:#a78fff;box-shadow:0 0 55px #8e6cff88,0 10px 30px #0008;transform:translateY(-3px)}.contact-button:hover b{color:#050505;transform:translate(3px,-3px)}
 .identity-meta{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;margin-top:34px;padding-top:18px;border-top:1px solid rgba(255,255,255,.13);font:var(--fs-label-sm) var(--font-mono);letter-spacing:.15em;color:#aaa9b4}.identity-meta>span{display:inline-flex;align-items:center;min-height:28px}.identity-meta>a{margin-left:auto;height:52px;padding:0 28px;border-radius:9999px;border:1px solid rgba(167,143,255,.45);background:linear-gradient(135deg,rgba(167,143,255,.16),rgba(167,143,255,.04));color:#f5f3ee;font:var(--fs-label) var(--font-mono);letter-spacing:.16em;font-weight:500;backdrop-filter:blur(12px);box-shadow:0 0 25px rgba(142,108,255,.2);transition:all .35s cubic-bezier(.16,1,.3,1);text-decoration:none;display:inline-flex;align-items:center;justify-content:center}.identity-meta>a:hover{background:#8e6cff;color:#050505;border-color:#a78fff;box-shadow:0 0 50px rgba(142,108,255,.7),0 10px 25px rgba(0,0,0,.5);transform:translateY(-3px)}.identity-meta a b{margin-left:10px;font-size:var(--fs-body-sm);transition:transform .3s}.identity-meta>a:hover b{transform:translateY(3px)}.identity-available{color:#caffb4}.identity-available i{width:6px;height:6px;margin-right:9px;border-radius:50%;background:#9cff71;box-shadow:0 0 10px #9cff71}.identity-copy .keywords{margin-top:22px}.portrait-wrap{padding-bottom:0}
 @media(max-width:600px){.identity-meta{align-items:flex-start;flex-direction:column;gap:10px}.identity-meta>a{margin-left:0;width:100%}.identity-copy .keywords{margin-top:20px}}
@@ -547,7 +390,7 @@ html[lang="th"] .modal-header h3 em{font-family:var(--font-thai),Georgia,serif;f
 }
 
 /* Four-point nova icon system */
-.topbar-star-node .star-icon{display:block;width:9px;height:11px;font-size:0;background:currentColor;clip-path:none;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='black' d='M50 0C55 27 66 42 100 50C66 58 55 73 50 100C45 73 34 58 0 50C34 42 45 27 50 0Z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='black' d='M50 0C55 27 66 42 100 50C66 58 55 73 50 100C45 73 34 58 0 50C34 42 45 27 50 0Z'/%3E%3C/svg%3E") center/contain no-repeat;filter:drop-shadow(0 0 5px currentColor);transition:all .3s cubic-bezier(.16,1,.3,1)}.topbar-star-node:hover .star-icon{width:12px;height:14px;background:#a78fff;filter:drop-shadow(0 0 8px #8e6cff);transform:rotate(18deg)}.topbar-star-node.active .star-icon{width:15px;height:18px;background:#fff;filter:drop-shadow(0 0 6px #fff) drop-shadow(0 0 14px #8e6cff);transform:rotate(12deg)}.trajectory-node,.stop-1 .trajectory-node,.stop-2 .trajectory-node,.stop-3 .trajectory-node{width:13px;height:16px;border:0;border-radius:0;background:#a78fff;clip-path:none;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='black' d='M50 0C55 27 66 42 100 50C66 58 55 73 50 100C45 73 34 58 0 50C34 42 45 27 50 0Z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='black' d='M50 0C55 27 66 42 100 50C66 58 55 73 50 100C45 73 34 58 0 50C34 42 45 27 50 0Z'/%3E%3C/svg%3E") center/contain no-repeat;filter:drop-shadow(0 0 7px #8e6cff);box-shadow:none}.stop-3 .trajectory-node{background:#d9ffc7;filter:drop-shadow(0 0 6px #fff) drop-shadow(0 0 13px #9cff71)}.project-sigil-float .sigil-star{display:block;width:clamp(145px,16vw,230px);height:clamp(165px,18vw,260px);font-size:0;background:var(--accent);clip-path:none;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='black' d='M50 0C55 27 66 42 100 50C66 58 55 73 50 100C45 73 34 58 0 50C34 42 45 27 50 0Z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='black' d='M50 0C55 27 66 42 100 50C66 58 55 73 50 100C45 73 34 58 0 50C34 42 45 27 50 0Z'/%3E%3C/svg%3E") center/contain no-repeat;filter:drop-shadow(0 0 22px color-mix(in srgb,var(--accent) 70%,transparent)) drop-shadow(0 0 52px color-mix(in srgb,var(--accent) 45%,transparent));text-shadow:none;transform:rotate(-6deg);transition:.6s cubic-bezier(.16,1,.3,1)}.project-floating-frame:hover .sigil-star{transform:rotate(10deg) scale(1.12);filter:drop-shadow(0 0 30px var(--accent)) drop-shadow(0 0 72px color-mix(in srgb,var(--accent) 70%,transparent))}.keyword-tag i{display:inline-block;width:8px;height:10px;font-size:0;background:currentColor;clip-path:none;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='black' d='M50 0C55 27 66 42 100 50C66 58 55 73 50 100C45 73 34 58 0 50C34 42 45 27 50 0Z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='black' d='M50 0C55 27 66 42 100 50C66 58 55 73 50 100C45 73 34 58 0 50C34 42 45 27 50 0Z'/%3E%3C/svg%3E") center/contain no-repeat;filter:drop-shadow(0 0 4px currentColor)}
+.topbar-star-node .star-icon{display:block;width:9px;height:11px;font-size:0;background:currentColor;clip-path:none;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='black' d='M50 0C55 27 66 42 100 50C66 58 55 73 50 100C45 73 34 58 0 50C34 42 45 27 50 0Z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='black' d='M50 0C55 27 66 42 100 50C66 58 55 73 50 100C45 73 34 58 0 50C34 42 45 27 50 0Z'/%3E%3C/svg%3E") center/contain no-repeat;filter:drop-shadow(0 0 5px currentColor);transition:all .3s cubic-bezier(.16,1,.3,1)}.topbar-star-node:hover .star-icon{width:12px;height:14px;background:#a78fff;filter:drop-shadow(0 0 8px #8e6cff);transform:rotate(18deg)}.topbar-star-node.active .star-icon{width:15px;height:18px;background:#fff;filter:drop-shadow(0 0 6px #fff) drop-shadow(0 0 14px #8e6cff);transform:rotate(12deg)}.project-sigil-float .sigil-star{display:block;width:clamp(145px,16vw,230px);height:clamp(165px,18vw,260px);font-size:0;background:var(--accent);clip-path:none;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='black' d='M50 0C55 27 66 42 100 50C66 58 55 73 50 100C45 73 34 58 0 50C34 42 45 27 50 0Z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='black' d='M50 0C55 27 66 42 100 50C66 58 55 73 50 100C45 73 34 58 0 50C34 42 45 27 50 0Z'/%3E%3C/svg%3E") center/contain no-repeat;filter:drop-shadow(0 0 22px color-mix(in srgb,var(--accent) 70%,transparent)) drop-shadow(0 0 52px color-mix(in srgb,var(--accent) 45%,transparent));text-shadow:none;transform:rotate(-6deg);transition:.6s cubic-bezier(.16,1,.3,1)}.project-floating-frame:hover .sigil-star{transform:rotate(10deg) scale(1.12);filter:drop-shadow(0 0 30px var(--accent)) drop-shadow(0 0 72px color-mix(in srgb,var(--accent) 70%,transparent))}.keyword-tag i{display:inline-block;width:8px;height:10px;font-size:0;background:currentColor;clip-path:none;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='black' d='M50 0C55 27 66 42 100 50C66 58 55 73 50 100C45 73 34 58 0 50C34 42 45 27 50 0Z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='black' d='M50 0C55 27 66 42 100 50C66 58 55 73 50 100C45 73 34 58 0 50C34 42 45 27 50 0Z'/%3E%3C/svg%3E") center/contain no-repeat;filter:drop-shadow(0 0 4px currentColor)}
 
 /* The display headings were white-space:nowrap, which forced the identity
    copy column wide enough to crush the portrait column to its 280px min
