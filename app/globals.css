@@ -564,9 +564,10 @@ html[lang="th"] .modal-header h3 em{font-family:var(--font-thai),Georgia,serif;f
 .case-section-head h2{line-height:.95;min-height:2.05em}
 
 /* ===== Career-trajectory field (TrajectoryField) ===================== */
-.tj-field{--tj-h:clamp(360px,44vh,450px);position:relative;width:100vw;margin-left:50%;transform:translateX(-50%);min-height:var(--tj-h)}
+.experience .tj-reveal{--tj-h:clamp(380px,46vh,470px);flex:1 1 auto;display:flex;flex-direction:column;min-height:var(--tj-h);max-height:min(70vh,600px)}
+.tj-field{position:relative;flex:1 1 auto;width:100vw;margin-left:50%;transform:translateX(-50%);min-height:0}
 .tj-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
-.tj-nodes{position:relative;list-style:none;margin:0;padding:0;height:var(--tj-h);z-index:1}
+.tj-nodes{position:absolute;inset:0;list-style:none;margin:0;padding:0;z-index:1}
 .tj-node{position:absolute;left:calc(14% + var(--nf)*58%);top:50%;transform:translate(-50%,-50%);width:0;height:0}
 .tj-star{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:30px;height:35px;color:var(--acc);filter:drop-shadow(0 0 12px color-mix(in srgb,var(--acc) 85%,#a78fff))}
 .tj-mini{position:absolute;left:50%;bottom:34px;display:flex;flex-direction:column;align-items:center;gap:4px;white-space:nowrap;transform:translateX(-50%)}
@@ -583,8 +584,9 @@ html[lang="th"] .modal-header h3 em{font-family:var(--font-thai),Georgia,serif;f
 /* stacked list for tablet + phone; the canvas switches to a vertical
    trajectory at the same 1024px cut, so the line stays under the stars */
 @media(max-width:1023px){
-  .tj-field{--tj-h:0;min-height:0}
-  .tj-nodes{height:auto;padding:6px 24px 64px 0}
+  .experience .tj-reveal{display:block;flex:none;min-height:0;max-height:none}
+  .tj-field{min-height:0;flex:none}
+  .tj-nodes{position:relative;inset:auto;height:auto;padding:6px 24px 64px 0}
   .tj-node,.tj-node:first-child,.tj-node:last-child{position:relative;left:auto;top:auto;transform:none;width:auto;height:auto;padding:4px 0 4px 52px;margin-bottom:26px}
   .tj-star{left:24px;top:26px;transform:translate(-50%,-50%);width:18px;height:21px}
   .tj-mini{position:static;left:auto;bottom:auto;transform:none;flex-direction:row;flex-wrap:wrap;align-items:baseline;gap:3px 12px;margin-bottom:8px}
@@ -599,8 +601,9 @@ html[lang="th"] .modal-header h3 em{font-family:var(--font-thai),Georgia,serif;f
   .tj-node{padding-left:46px;margin-bottom:22px}
   .tj-star{left:22px;width:16px;height:19px}
 }
-/* The trajectory section's content is shorter than a full viewport — drop the
-   blanket 100vh min so it doesn't leave a dead starfield band below the band.
-   At EOF to beat the earlier `.section{min-height:100vh}`. */
-.experience.section{min-height:auto;padding-bottom:clamp(48px,6vh,96px)}
-@media(max-width:1023px){.experience.section{padding-bottom:clamp(36px,5vh,72px)}}
+/* Match the neighbouring sections' full-viewport height: the heading pins to
+   the top, .tj-field flexes to eat the remaining space (capped), and any
+   slack left on very tall screens is centred. At EOF to beat earlier rules. */
+.experience.section{min-height:100vh}
+.experience{justify-content:center}
+@media(max-width:1023px){.experience.section{min-height:auto;padding-bottom:clamp(36px,5vh,72px)}.experience{justify-content:flex-start}}
