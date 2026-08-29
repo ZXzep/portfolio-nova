@@ -266,7 +266,7 @@ export const projects: Project[] = [
     ],
   },
   {
-    slug: 'codelabs-tech', title: 'CodeLabs Tech', category: 'UX/UI', period: '2025', accent: '#6fa8ff',
+    slug: 'codelabs-tech', title: 'CodeLabs Tech', category: 'UX/UI', period: '2025', accent: '#38bdf8',
     hero: '/work/codelabs.png',
     gallery: ['01.svg', '02.png', '03.png', '04.png', '05.png'].map((x) => `/case-studies/codelabs/${x}`),
     tools: ['Figma', 'Illustrator', 'Photoshop', 'Canva'],
@@ -400,7 +400,7 @@ export const projects: Project[] = [
     },
   },
   {
-    slug: 'ta-recruitment', title: 'TA Recruitment', category: 'UX/UI', period: 'ARCHIVE', accent: '#7aa8ff',
+    slug: 'ta-recruitment', title: 'TA Recruitment', category: 'UX/UI', period: '2022', accent: '#818cf8',
     hero: '/case-studies/ta-recruitment/01.png',
     gallery: Array.from({ length: 29 }, (_, i) => `/case-studies/ta-recruitment/${String(i + 1).padStart(2, '0')}.png`),
     tools: ['Figma'],
@@ -448,7 +448,7 @@ export const projects: Project[] = [
     },
   },
   {
-    slug: 'kumi-shop', title: 'Kumi Shop', category: 'UX/UI', period: 'ARCHIVE', accent: '#ffbd66',
+    slug: 'kumi-shop', title: 'Kumi Shop', category: 'UX/UI', period: '2022', accent: '#facc15',
     hero: '/case-studies/kumi-shop/1.png',
     gallery: ['1', '2', '3', '4', '5'].map((x) => `/case-studies/kumi-shop/${x}.png`),
     tools: ['Figma', 'Photoshop'],
@@ -496,7 +496,7 @@ export const projects: Project[] = [
     },
   },
   {
-    slug: 'tic-tactics', title: 'TIC-TACTICS', category: 'UX/UI', period: 'ARCHIVE', accent: '#ff745c',
+    slug: 'tic-tactics', title: 'TIC-TACTICS', category: 'UX/UI', period: '2023', accent: '#ff745c',
     hero: '/work/ttt.png',
     gallery: Array.from({ length: 18 }, (_, i) => `/case-studies/tic-tactics/${String(i + 1).padStart(2, '0')}.png`),
     tools: ['Figma', 'Front-end Development'],
@@ -544,7 +544,7 @@ export const projects: Project[] = [
     },
   },
   {
-    slug: 'hoklong-metaverse', title: 'Hoklong Metaverse', category: '3D', period: 'ARCHIVE', accent: '#a98aff',
+    slug: 'hoklong-metaverse', title: 'Hoklong Metaverse', category: '3D', period: '2024', accent: '#a98aff',
     hero: '/case-studies/hoklong-metaverse/01.png',
     gallery: Array.from({ length: 10 }, (_, i) => `/case-studies/hoklong-metaverse/${String(i + 1).padStart(2, '0')}.png`),
     tools: ['Maya', 'Substance 3D Painter'],
@@ -592,7 +592,7 @@ export const projects: Project[] = [
     },
   },
   {
-    slug: 'university-3d-project', title: 'University 3D Project', category: '3D', period: 'UNIVERSITY', accent: '#8e6cff',
+    slug: 'university-3d-project', title: 'University 3D Project', category: '3D', period: '2023', accent: '#c084fc',
     hero: '/case-studies/university-3d-project/01.png',
     gallery: ['/case-studies/university-3d-project/01.png'],
     tools: ['Maya', 'Substance 3D Painter'],
@@ -640,7 +640,7 @@ export const projects: Project[] = [
     },
   },
   {
-    slug: 'freelance-graphic-design', title: 'Freelance Graphic Design', category: 'DESIGN', period: 'ARCHIVE', accent: '#ff668d',
+    slug: 'freelance-graphic-design', title: 'Freelance Graphic Design', category: 'DESIGN', period: '2024', accent: '#f43f5e',
     hero: '/case-studies/freelance-graphic-design/01.png',
     gallery: Array.from({ length: 12 }, (_, i) => `/case-studies/freelance-graphic-design/${String(i + 1).padStart(2, '0')}.png`),
     tools: ['Illustrator'],
