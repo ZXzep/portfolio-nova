@@ -20,18 +20,15 @@ function NovaStar({className="",style={}}:{className?:string;style?:React.CSSPro
    node to raise its detail card. Canvas does the motion; a DOM layer does
    the labels + interaction. Collapses to a vertical list on phones. */
 const TJ_STOPS = [
-  { date: 'exp_1_date', role: 'exp_1_role', company: 'exp_1_company', desc: 'exp_1_desc', accent: '#ff6e91', nf: 0 },
-  { date: 'exp_2_date', role: 'exp_2_role', company: 'exp_2_company', desc: 'exp_2_desc', accent: '#5bc8ff', nf: 0.5 },
-  { date: 'exp_3_date', role: 'exp_3_role', company: 'exp_3_company', desc: 'exp_3_desc', accent: '#9cff71', nf: 1 },
+  { date: 'exp_1_date', role: 'exp_1_role', company: 'exp_1_company', desc: 'exp_1_desc', accent: '#9d84ff', nf: 0 },
+  { date: 'exp_2_date', role: 'exp_2_role', company: 'exp_2_company', desc: 'exp_2_desc', accent: '#c3b0ff', nf: 0.5 },
+  { date: 'exp_3_date', role: 'exp_3_role', company: 'exp_3_company', desc: 'exp_3_desc', accent: '#ffffff', nf: 1 },
 ] as const;
 const TJ_STAR_PATH = 'M50 0C55 27 66 42 100 50C66 58 55 73 50 100C45 73 34 58 0 50C34 42 45 27 50 0Z';
 
 function TrajectoryField() {
   const t = useT();
   const [canvasRef, inView] = useInView('150px');
-  const [open, setOpen] = useState<number | null>(null);
-  const openRef = useRef<number | null>(null);
-  openRef.current = open;
 
   useEffect(() => {
     if (!inView) return;
@@ -49,7 +46,7 @@ function TrajectoryField() {
       const p = c.parentElement;
       if (!p) return;
       W = p.clientWidth; H = p.clientHeight;
-      vert = W < 760;
+      vert = W < 1024;
       const d = Math.min(devicePixelRatio, 1.5);
       c.width = W * d; c.height = H * d;
       c.style.width = W + 'px'; c.style.height = H + 'px';
@@ -115,7 +112,7 @@ function TrajectoryField() {
         (1 - u) * (1 - u) * p0 + 2 * (1 - u) * u * p1 + u * u * p2;
 
       if (vert) {
-        const gx = 36, y0 = 4, y1 = H - 54;
+        const gx = 24, y0 = 4, y1 = H - 54;
         const yk = y0 + (y1 - y0) * 0.72;
         const my2 = y1 + 18 + bob;
         mother = { x: gx + drift, y: my2 };
@@ -138,8 +135,8 @@ function TrajectoryField() {
           g.stroke();
         };
       } else {
-        const ly = H * 0.5, mx = Math.min(W - 150, W * 0.93), xk = W * 0.8;
-        const nsx = W * 0.22, nex = W * 0.66;
+        const ly = H * 0.5, mx = Math.min(W - 90, W * 0.95), xk = W * 0.84;
+        const nsx = W * 0.14, nex = W * 0.72;
         mother = { x: mx, y: ly + bob };
         dir = { x: -1, y: 0 };
         lineStart = { x: 0, y: ly };
@@ -200,42 +197,46 @@ function TrajectoryField() {
         }
       }
 
-      // node glows (the crisp star at each node is drawn by the DOM layer)
-      TJ_STOPS.forEach((s, i) => {
-        const p = nodeAt(s.nf);
-        const hov = openRef.current === i + 1;
-        const pulse = 0.8 + 0.2 * Math.sin(t * 0.05 + i * 1.7);
-        const glowR = (hov ? 74 : 46) * pulse;
-        const ng = g.createRadialGradient(p.x, p.y, 0, p.x, p.y, glowR);
-        ng.addColorStop(0, rgba(s.accent, hov ? 0.85 : 0.4));
-        ng.addColorStop(0.5, rgba(s.accent, hov ? 0.28 : 0.1));
-        ng.addColorStop(1, 'transparent');
-        g.fillStyle = ng;
-        g.beginPath(); g.arc(p.x, p.y, glowR, 0, 6.283); g.fill();
-      });
+      // node glows under each marker (desktop only — on the stacked layout the
+      // DOM stars flow at their own y and the canvas can't track them, so the
+      // crisp CSS drop-shadow on .tj-star carries the glow there instead)
+      if (!vert) {
+        TJ_STOPS.forEach((s, i) => {
+          const p = nodeAt(s.nf);
+          const pulse = 0.8 + 0.2 * Math.sin(t * 0.05 + i * 1.7);
+          const glowR = 44 * pulse;
+          const gcol = s.accent === '#ffffff' ? '#d6cbff' : s.accent;
+          const ng = g.createRadialGradient(p.x, p.y, 0, p.x, p.y, glowR);
+          ng.addColorStop(0, rgba(gcol, 0.44));
+          ng.addColorStop(0.5, rgba(gcol, 0.1));
+          ng.addColorStop(1, 'transparent');
+          g.fillStyle = ng;
+          g.beginPath(); g.arc(p.x, p.y, glowR, 0, 6.283); g.fill();
+        });
+      }
 
       // comets: two babies with their own tails, then the mother (tail = the line)
       const my = mother.y;
-      const b1 = { x: mother.x + (vert ? -24 : -210), y: my + (vert ? -56 : -140) + Math.sin(t * 0.024) * 11 };
-      const b2 = { x: mother.x + (vert ? 22 : -84), y: my + (vert ? 46 : 116) + Math.cos(t * 0.02) * 13 };
-      comet(b1.x, b1.y, dir.x, dir.y, vert ? 62 : 280, vert ? 7 : 17, vert ? 6 : 15, '#ccb9ff');
-      comet(b2.x, b2.y, dir.x, dir.y, vert ? 50 : 220, vert ? 6 : 14, vert ? 5.5 : 12, '#bba6ff');
+      const b1 = { x: mother.x + (vert ? -24 : -188), y: my + (vert ? -56 : -98) + Math.sin(t * 0.024) * 9 };
+      const b2 = { x: mother.x + (vert ? 22 : -56), y: my + (vert ? 46 : 86) + Math.cos(t * 0.02) * 11 };
+      comet(b1.x, b1.y, dir.x, dir.y, vert ? 62 : 256, vert ? 7 : 16, vert ? 6 : 14, '#ccb9ff');
+      comet(b2.x, b2.y, dir.x, dir.y, vert ? 50 : 200, vert ? 6 : 13, vert ? 5.5 : 11, '#bba6ff');
       // two soft wisps trailing the mother for volume, then her head
-      drawHead(mother.x + dir.x * (vert ? 26 : 56), my + dir.y * (vert ? 26 : 56), vert ? 13 : 26, '#ad96ff');
-      drawHead(mother.x + dir.x * (vert ? 52 : 112), my + dir.y * (vert ? 52 : 112), vert ? 9 : 17, '#9c85f5');
-      drawHead(mother.x, my, vert ? 22 : 44, '#c8b3ff');
+      drawHead(mother.x + dir.x * (vert ? 26 : 54), my + dir.y * (vert ? 26 : 54), vert ? 13 : 24, '#ad96ff');
+      drawHead(mother.x + dir.x * (vert ? 52 : 108), my + dir.y * (vert ? 52 : 108), vert ? 9 : 16, '#9c85f5');
+      drawHead(mother.x, my, vert ? 21 : 40, '#c8b3ff');
 
       // sparks shed continuously by every comet head
       if (!reduced && t % 2 === 0) {
         [{ x: mother.x, y: my, n: 3 }, { ...b1, n: 2 }, { ...b2, n: 2 }].forEach((e, si) => {
           for (let k = 0; k < e.n; k++) {
             if (sparks.length > 260) break;
-            const spd = 0.5 + Math.random() * 2.4;
+            const spd = 0.4 + Math.random() * 1.9;
             sparks.push({
               x: e.x + (Math.random() - 0.5) * 6, y: e.y + (Math.random() - 0.5) * 6,
-              vx: dir.x * spd + (Math.random() - 0.5) * 1.1,
-              vy: dir.y * spd + (Math.random() - 0.5) * 1.1,
-              life: 0, max: 28 + Math.random() * 52,
+              vx: dir.x * spd * 0.72 + (Math.random() - 0.5) * 1.3,
+              vy: dir.y * spd * 0.72 + (Math.random() - 0.5) * 1.3,
+              life: 0, max: 22 + Math.random() * 40,
               r: (si === 0 ? 1.1 : 0.7) + Math.random() * 1.4,
               c: Math.random() < 0.5 ? '#ffffff' : (Math.random() < 0.6 ? '#c9b6ff' : '#a98cff'),
             });
@@ -265,44 +266,27 @@ function TrajectoryField() {
   return (
     <div className="tj-field">
       <canvas ref={canvasRef} className="tj-canvas" aria-hidden="true" />
-      <ul className="tj-nodes" aria-label="Career timeline">
-        {TJ_STOPS.map((s, i) => {
-          const n = i + 1;
-          const isOpen = open === n;
-          return (
-            <li
-              key={s.company}
-              className={`tj-node${isOpen ? ' is-open' : ''}`}
-              style={{ '--acc': s.accent, '--nf': s.nf } as React.CSSProperties}
-            >
-              <button
-                type="button"
-                className="tj-hit"
-                aria-expanded={isOpen}
-                onMouseEnter={() => setOpen(n)}
-                onMouseLeave={() => setOpen((o) => (o === n ? null : o))}
-                onFocus={() => setOpen(n)}
-                onBlur={() => setOpen((o) => (o === n ? null : o))}
-                onClick={() => setOpen((o) => (o === n ? null : n))}
-              >
-                <span className="tj-star" aria-hidden="true">
-                  <NovaStar style={{ width: '100%', height: '100%', margin: 0, filter: 'none' }} />
-                </span>
-                <span className="tj-mini">
-                  <span className="tj-mini-date">{t(s.date)}</span>
-                  <span className="tj-mini-co">{t(s.company)}</span>
-                </span>
-              </button>
-              <div className="tj-card">
-                <span className="tj-card-date">{t(s.date)}</span>
-                <span className="tj-card-role">{t(s.role)}</span>
-                <h3 className="tj-card-co">{t(s.company)}</h3>
-                <p className="tj-card-desc">{t(s.desc)}</p>
-              </div>
-            </li>
-          );
-        })}
-      </ul>
+      <ol className="tj-nodes" aria-label="Career timeline">
+        {TJ_STOPS.map((s) => (
+          <li
+            key={s.company}
+            className="tj-node"
+            style={{ '--acc': s.accent, '--nf': s.nf } as React.CSSProperties}
+          >
+            <span className="tj-mini">
+              <span className="tj-mini-date">{t(s.date)}</span>
+              <span className="tj-mini-co">{t(s.company)}</span>
+            </span>
+            <span className="tj-star" aria-hidden="true">
+              <NovaStar style={{ width: '100%', height: '100%', margin: 0, filter: 'none' }} />
+            </span>
+            <span className="tj-detail">
+              <span className="tj-detail-role">{t(s.role)}</span>
+              <span className="tj-detail-desc">{t(s.desc)}</span>
+            </span>
+          </li>
+        ))}
+      </ol>
     </div>
   );
 }
