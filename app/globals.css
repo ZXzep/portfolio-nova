@@ -368,6 +368,13 @@ html[lang="th"] .modal-header h3 em{font-family:var(--font-thai),Georgia,serif;f
   100%{transform:translateY(-50%) rotate(360deg);}
 }
 
+/* On phones the trajectory line runs top-to-bottom, so the horizontal
+   mother-comet streak reads as a stray sideways line across it — drop it
+   and let the vertical gradient + nodes carry the timeline. */
+@media (max-width: 900px){
+  .mother-comet{display:none}
+}
+
 /* Baby Comets Shower (ฝูงลูกดาวหางลอยตามลู่) */
 .baby-comet-shower{position:absolute;inset:0;pointer-events:none;z-index:3}
 .baby-comet{position:absolute;display:flex;align-items:center;pointer-events:none;animation:babyCometDrift 4.5s ease-in-out infinite alternate}
