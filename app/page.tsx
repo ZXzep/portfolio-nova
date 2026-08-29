@@ -101,69 +101,106 @@ function TrajectoryField() {
       if (!reduced) t += 1;
       g.clearRect(0, 0, W, H);
 
-      let a: { x: number; y: number }, b: { x: number; y: number }, dir: { x: number; y: number }, mother: { x: number; y: number };
-      if (vert) {
-        const gx = 20, y0 = 4, y1 = H - 58;
-        a = { x: gx, y: y0 }; b = { x: gx, y: y1 };
-        dir = { x: 0, y: -1 };
-        mother = { x: gx, y: y1 + 22 };
-      } else {
-        const x0 = W * 0.02, ly = H * 0.33;
-        const mx = Math.min(W - 84, W * 0.9);
-        a = { x: x0, y: ly }; b = { x: mx - 96, y: ly };
-        dir = { x: -1, y: 0 };
-        mother = { x: mx, y: ly };
-      }
-      const at = (f: number) => ({ x: a.x + (b.x - a.x) * f, y: a.y + (b.y - a.y) * f });
-      const bob = reduced ? 0 : Math.sin(t * 0.03) * 3;
+      const bob = reduced ? 0 : Math.sin(t * 0.028) * (vert ? 5 : 9);
+      const drift = reduced ? 0 : Math.sin(t * 0.019 + 1.3) * (vert ? 4 : 7);
+      let nodeAt: (f: number) => { x: number; y: number };
+      let strokeLine: (lw: number, style: string | CanvasGradient) => void;
+      let dir: { x: number; y: number };
+      let mother: { x: number; y: number };
+      let lineStart: { x: number; y: number }, lineEnd: { x: number; y: number };
 
-      // timeline line — under-glow, then a bright gradient core that runs
-      // all the way into the mother comet
-      const lg = g.createLinearGradient(a.x, a.y, mother.x, mother.y);
-      lg.addColorStop(0, 'rgba(150,120,255,0.28)');
-      lg.addColorStop(0.3, 'rgba(160,130,255,0.6)');
-      lg.addColorStop(0.78, 'rgba(196,178,255,0.96)');
-      lg.addColorStop(1, 'rgba(255,255,255,0.98)');
-      g.lineCap = 'round';
-      g.strokeStyle = 'rgba(142,108,255,0.16)'; g.lineWidth = 12;
-      g.beginPath(); g.moveTo(a.x, a.y); g.lineTo(mother.x, mother.y); g.stroke();
-      g.strokeStyle = lg; g.lineWidth = 3;
-      g.beginPath(); g.moveTo(a.x, a.y); g.lineTo(b.x, b.y); g.stroke();
+      if (vert) {
+        const gx = 22, y0 = 4, y1 = H - 54;
+        const yk = y0 + (y1 - y0) * 0.76;
+        mother = { x: gx + drift, y: y1 + 18 + bob };
+        dir = { x: 0, y: -1 };
+        lineStart = { x: gx, y: y0 }; lineEnd = { x: gx, y: yk };
+        nodeAt = (f) => ({ x: gx, y: y0 + (yk - y0) * f });
+        strokeLine = (lw, style) => {
+          g.strokeStyle = style; g.lineWidth = lw; g.lineCap = 'round';
+          g.beginPath();
+          g.moveTo(gx, y0); g.lineTo(gx, yk);
+          g.quadraticCurveTo(gx, yk + (mother.y - yk) * 0.5, mother.x, mother.y);
+          g.stroke();
+        };
+      } else {
+        const sx = W * 0.02, mx = Math.min(W - 96, W * 0.9), ly = H * 0.48;
+        const xk = W * 0.7;
+        mother = { x: mx, y: ly + bob };
+        dir = { x: -1, y: 0 };
+        lineStart = { x: sx, y: ly }; lineEnd = { x: xk, y: ly };
+        nodeAt = (f) => ({ x: sx + (xk - sx) * f, y: ly });
+        strokeLine = (lw, style) => {
+          g.strokeStyle = style; g.lineWidth = lw; g.lineCap = 'round';
+          g.beginPath();
+          g.moveTo(sx, ly); g.lineTo(xk, ly);
+          g.quadraticCurveTo(xk + (mx - xk) * 0.5, ly, mx, mother.y);
+          g.stroke();
+        };
+      }
+      const drawHead = (hx: number, hy: number, headR: number, col: string) => {
+        const cg = g.createRadialGradient(hx, hy, 0, hx, hy, headR * 5);
+        cg.addColorStop(0, rgba(col, 0.5));
+        cg.addColorStop(0.4, rgba(col, 0.16));
+        cg.addColorStop(1, 'transparent');
+        g.fillStyle = cg;
+        g.beginPath(); g.arc(hx, hy, headR * 5, 0, 6.283); g.fill();
+        drawStar(hx, hy, headR, col, 26);
+      };
+
+      // timeline line: straight, then a flexing whip into the (moving) mother
+      const lg = g.createLinearGradient(lineStart.x, lineStart.y, mother.x, mother.y);
+      lg.addColorStop(0, 'rgba(150,120,255,0.32)');
+      lg.addColorStop(0.28, 'rgba(168,138,255,0.66)');
+      lg.addColorStop(0.72, 'rgba(202,184,255,0.96)');
+      lg.addColorStop(1, 'rgba(255,255,255,1)');
+      strokeLine(vert ? 18 : 22, 'rgba(142,108,255,0.14)');
+      strokeLine(vert ? 3.6 : 4.4, lg);
+      g.save();
+      g.globalCompositeOperation = 'lighter';
+      const wg = g.createLinearGradient(nodeAt(1).x, nodeAt(1).y, mother.x, mother.y);
+      wg.addColorStop(0, 'rgba(200,180,255,0)');
+      wg.addColorStop(1, 'rgba(255,255,255,0.55)');
+      strokeLine(vert ? 10 : 12, wg);
+      g.restore();
 
       // pulse travelling toward the present
       if (!reduced) {
         const pp = (t * 0.0038) % 1.5;
         if (pp <= 1) {
-          const pt = at(pp);
-          const pgr = g.createRadialGradient(pt.x, pt.y, 0, pt.x, pt.y, 22);
-          pgr.addColorStop(0, `rgba(255,255,255,${0.55 * Math.sin(pp * Math.PI)})`);
+          const pt = nodeAt(pp);
+          const pgr = g.createRadialGradient(pt.x, pt.y, 0, pt.x, pt.y, 26);
+          pgr.addColorStop(0, `rgba(255,255,255,${0.6 * Math.sin(pp * Math.PI)})`);
           pgr.addColorStop(1, 'transparent');
           g.fillStyle = pgr;
-          g.beginPath(); g.arc(pt.x, pt.y, 22, 0, 6.283); g.fill();
+          g.beginPath(); g.arc(pt.x, pt.y, 26, 0, 6.283); g.fill();
         }
       }
 
-      // nodes
+      // node glows (the crisp star at each node is drawn by the DOM layer)
       TJ_STOPS.forEach((s, i) => {
-        const p = at(s.nf);
+        const p = nodeAt(s.nf);
         const hov = openRef.current === i + 1;
-        const pulse = 0.78 + 0.22 * Math.sin(t * 0.05 + i * 1.7);
-        const glowR = (hov ? 34 : 19) * pulse;
+        const pulse = 0.8 + 0.2 * Math.sin(t * 0.05 + i * 1.7);
+        const glowR = (hov ? 46 : 27) * pulse;
         const ng = g.createRadialGradient(p.x, p.y, 0, p.x, p.y, glowR);
-        ng.addColorStop(0, rgba(s.accent, hov ? 0.9 : 0.45));
+        ng.addColorStop(0, rgba(s.accent, hov ? 0.85 : 0.4));
+        ng.addColorStop(0.5, rgba(s.accent, hov ? 0.28 : 0.1));
         ng.addColorStop(1, 'transparent');
         g.fillStyle = ng;
         g.beginPath(); g.arc(p.x, p.y, glowR, 0, 6.283); g.fill();
-        drawStar(p.x, p.y, (hov ? 9 : 6) * pulse + 1, s.accent, 14);
       });
 
-      // comets: two babies flanking the mother, then the mother on top
-      const my = mother.y + bob;
-      const b1 = { x: mother.x + (vert ? -14 : -40), y: my + (vert ? -34 : -66) + Math.sin(t * 0.024) * 7 };
-      const b2 = { x: mother.x + (vert ? 14 : 26), y: my + (vert ? 24 : 58) + Math.cos(t * 0.02) * 9 };
-      comet(b1.x, b1.y, dir.x, dir.y, vert ? 42 : 118, vert ? 4 : 6.5, vert ? 3.5 : 5.5, '#cbb8ff');
-      comet(b2.x, b2.y, dir.x, dir.y, vert ? 34 : 100, vert ? 3.5 : 5.5, vert ? 3 : 4.5, '#b9a4ff');
-      comet(mother.x, my, dir.x, dir.y, vert ? 78 : Math.min(mother.x - W * 0.05, 440), vert ? 9 : 18, vert ? 8 : 15, '#b6a0ff');
+      // comets: two babies with their own tails, then the mother (tail = the line)
+      const my = mother.y;
+      const b1 = { x: mother.x + (vert ? -16 : -46), y: my + (vert ? -40 : -78) + Math.sin(t * 0.024) * 8 };
+      const b2 = { x: mother.x + (vert ? 15 : 30), y: my + (vert ? 30 : 66) + Math.cos(t * 0.02) * 10 };
+      comet(b1.x, b1.y, dir.x, dir.y, vert ? 46 : 140, vert ? 4.5 : 8, vert ? 4 : 7, '#ccb9ff');
+      comet(b2.x, b2.y, dir.x, dir.y, vert ? 38 : 118, vert ? 4 : 7, vert ? 3.5 : 6, '#bba6ff');
+      // two soft wisps trailing the mother for volume, then her head
+      drawHead(mother.x + dir.x * (vert ? 16 : 30), my + dir.y * (vert ? 16 : 30), vert ? 8 : 13, '#ad96ff');
+      drawHead(mother.x + dir.x * (vert ? 32 : 58), my + dir.y * (vert ? 32 : 58), vert ? 5 : 8, '#9c85f5');
+      drawHead(mother.x, my, vert ? 14 : 24, '#c8b3ff');
 
       // sparks shed by every comet head
       if (!reduced && t % 3 === 0) {
