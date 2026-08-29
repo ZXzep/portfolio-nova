@@ -463,4 +463,12 @@ html[lang="th"] .modal-header h3 em{font-family:var(--font-thai),Georgia,serif;f
 
   /* Full-bleed featured project cards. */
   .project { width: 100%; }
+
+  /* The portrait's orbiting laser rings / halo stick out ~40px past the
+     portrait on every side — off the viewport edge on a phone (clipped by
+     overflow-x now, but visibly chopped). Pull them in. */
+  .interactive-portrait { padding: 6px; }
+  .portrait-laser-ring.ring-solid { inset: -10px; }
+  .portrait-laser-ring.ring-dashed { inset: -18px; }
+  .portrait-halo-aura { inset: -8px; filter: blur(16px); }
 }
