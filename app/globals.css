@@ -1,15 +1,23 @@
 @import 'tailwindcss';
 :root{--ink:#050505;--paper:#f5f3ee;--muted:#8a8a94;--violet:#8e6cff;--line:rgba(255,255,255,.14)}*{box-sizing:border-box}html{scroll-behavior:smooth;background:var(--ink);overflow-x:clip}body{margin:0;background:var(--ink);color:var(--paper);font-family:var(--font-sans),var(--font-thai),Arial,sans-serif;overflow-x:clip;max-width:100%}a{color:inherit;text-decoration:none}button{font:inherit}
-/* Thai reads badly with the tight negative tracking + forced uppercase used for the Latin display type */
-html[lang="th"] h1,html[lang="th"] h2,html[lang="th"] h3,html[lang="th"] h4,html[lang="th"] .case h1,html[lang="th"] .case-large,html[lang="th"] .case-next strong,html[lang="th"] .hero h1,html[lang="th"] .case-section-head h2{letter-spacing:normal;text-transform:none;line-height:1.15}
+/* --- Bilingual layout stability -------------------------------------
+   Tailwind's preflight puts line-height:1.5 on <html>. Left alone, the
+   English headings inherit that huge value while the Thai ones used to
+   get their own (1.15) — so every heading changed height on an EN/TH
+   toggle and shoved the copy under it around. Fix: give headings ONE
+   explicit line-height that both languages share, and let each Thai
+   heading keep only what it truly needs (no forced uppercase, no
+   negative tracking). Component line-heights below are NOT lang-scoped,
+   so once the Thai override is gone they apply equally to both. */
+h1,h2,h3,h4{line-height:1.2}
+html[lang="th"] h1,html[lang="th"] h2,html[lang="th"] h3,html[lang="th"] h4,html[lang="th"] .hero h1{letter-spacing:normal;text-transform:none}
+/* Case-study display heads use an ultra-tight Latin leading Thai can't take */
+html[lang="th"] .case h1,html[lang="th"] .case-large,html[lang="th"] .case-next strong,html[lang="th"] .case-section-head h2{letter-spacing:normal;text-transform:none;line-height:1.18}
 html[lang="th"] .hero h1 span{line-height:1.1}
-/* Keep display headings the SAME size + leading in both languages so
-   toggling EN/TH doesn't resize them and shove the copy below around.
-   (The English <em> is Georgia serif, whose tall metrics otherwise
-   inflate the line box past the Thai one — pin line-height to stop that.) */
+.hero-copy-centered h1{line-height:1.12}
 html[lang="th"] .hero-copy-centered h1{font-weight:600;line-height:1.12;letter-spacing:0}
 html[lang="th"] .hero-copy-centered h1 .h1-line{line-height:1.12}
-.identity h2,.section-heading h2,.trajectory-heading h2,html[lang="th"] .identity h2,html[lang="th"] .section-heading h2,html[lang="th"] .trajectory-heading h2{line-height:1.14}
+.identity h2,.section-heading h2,.trajectory-heading h2{line-height:1.14}
 html[lang="th"] .eyebrow,html[lang="th"] .case-kicker span,html[lang="th"] dt,html[lang="th"] .case-label,html[lang="th"] .lang-toggle{letter-spacing:.06em}
 /* No good Thai monospace exists — render mono-styled Thai labels in the Thai sans instead */
 html[lang="th"] .eyebrow,html[lang="th"] dt,html[lang="th"] dd,html[lang="th"] .case-label,html[lang="th"] .case-kicker span,html[lang="th"] .case-nav,html[lang="th"] .case-nav span,html[lang="th"] .case-section-head>span,html[lang="th"] .case-story aside span,html[lang="th"] .case-process article>span,html[lang="th"] .case-result>span,html[lang="th"] .case-columns li b,html[lang="th"] .case-next>span,html[lang="th"] .case-footer,html[lang="th"] .filters button,html[lang="th"] .archive-row span,html[lang="th"] .topbar-work-btn,html[lang="th"] .button,html[lang="th"] .scroll-cue,html[lang="th"] .orbit-label,html[lang="th"] .section-index,html[lang="th"] .keyword-tag,html[lang="th"] .spec-header span,html[lang="th"] .portal-cta-tag span,html[lang="th"] .tech-pill,html[lang="th"] .contact-button,html[lang="th"] .contact-details,html[lang="th"] .modal-badge,html[lang="th"] .modal-action-btn,html[lang="th"] .modal-divider,html[lang="th"] .modal-submit-btn,html[lang="th"] .toast-notice{font-family:var(--font-thai),var(--font-mono),monospace}
