@@ -14,47 +14,232 @@ function ThaiFlag({className=""}:{className?:string}){return <svg className={cla
 
 function NovaStar({className="",style={}}:{className?:string;style?:React.CSSProperties}){return <svg className={className} style={{display:'inline-block',width:'11px',height:'13px',verticalAlign:'-1px',marginLeft:'5px',filter:'drop-shadow(0 0 5px currentColor)',...style}} viewBox="0 0 100 100" aria-hidden="true"><path fill="currentColor" d="M50 0C55 27 66 42 100 50C66 58 55 73 50 100C45 73 34 58 0 50C34 42 45 27 50 0Z"/></svg>}
 
-function TrajectoryComets() {
+/* Career trajectory: a left→right worklife timeline whose bright end feeds the
+   tail of a mother comet, flanked by two baby comets, all shedding sparks.
+   Three star nodes sit on the line (month/year always shown); hover/tap a
+   node to raise its detail card. Canvas does the motion; a DOM layer does
+   the labels + interaction. Collapses to a vertical list on phones. */
+const TJ_STOPS = [
+  { date: 'exp_1_date', role: 'exp_1_role', company: 'exp_1_company', desc: 'exp_1_desc', accent: '#ff6e91', nf: 0.12 },
+  { date: 'exp_2_date', role: 'exp_2_role', company: 'exp_2_company', desc: 'exp_2_desc', accent: '#5bc8ff', nf: 0.4 },
+  { date: 'exp_3_date', role: 'exp_3_role', company: 'exp_3_company', desc: 'exp_3_desc', accent: '#9cff71', nf: 0.66 },
+] as const;
+const TJ_STAR_PATH = 'M50 0C55 27 66 42 100 50C66 58 55 73 50 100C45 73 34 58 0 50C34 42 45 27 50 0Z';
+
+function TrajectoryField() {
+  const t = useT();
+  const [canvasRef, inView] = useInView('150px');
+  const [open, setOpen] = useState<number | null>(null);
+  const openRef = useRef<number | null>(null);
+  openRef.current = open;
+
+  useEffect(() => {
+    if (!inView) return;
+    const c = canvasRef.current;
+    if (!c) return;
+    const g = c.getContext('2d');
+    if (!g) return;
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const starPath = new Path2D(TJ_STAR_PATH);
+    let raf = 0, t = 0, W = 0, H = 0, vert = false, last = 0;
+    type Spark = { x: number; y: number; vx: number; vy: number; life: number; max: number; r: number; c: string };
+    const sparks: Spark[] = [];
+
+    const resize = () => {
+      const p = c.parentElement;
+      if (!p) return;
+      W = p.clientWidth; H = p.clientHeight;
+      vert = W < 760;
+      const d = Math.min(devicePixelRatio, 1.5);
+      c.width = W * d; c.height = H * d;
+      c.style.width = W + 'px'; c.style.height = H + 'px';
+      g.setTransform(d, 0, 0, d, 0, 0);
+    };
+    resize();
+
+    const rgba = (hex: string, a: number) => {
+      const n = parseInt(hex.slice(1), 16);
+      return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`;
+    };
+    const drawStar = (x: number, y: number, rad: number, glow: string, blur: number) => {
+      g.save();
+      g.translate(x, y);
+      const k = rad / 50;
+      g.scale(k, k);
+      g.translate(-50, -50);
+      g.shadowColor = glow; g.shadowBlur = blur / k;
+      g.fillStyle = '#fff';
+      g.fill(starPath);
+      g.restore();
+    };
+    const comet = (hx: number, hy: number, dx: number, dy: number, len: number, w: number, headR: number, col: string) => {
+      const ex = hx + dx * len, ey = hy + dy * len;
+      const nx = -dy, ny = dx;
+      const grad = g.createLinearGradient(hx, hy, ex, ey);
+      grad.addColorStop(0, rgba(col, 0.5));
+      grad.addColorStop(0.5, rgba(col, 0.16));
+      grad.addColorStop(1, rgba(col, 0));
+      g.fillStyle = grad;
+      g.beginPath();
+      g.moveTo(hx + nx * w, hy + ny * w);
+      g.quadraticCurveTo(hx + dx * len * 0.5 + nx * w * 0.32, hy + dy * len * 0.5 + ny * w * 0.32, ex, ey);
+      g.quadraticCurveTo(hx + dx * len * 0.5 - nx * w * 0.32, hy + dy * len * 0.5 - ny * w * 0.32, hx - nx * w, hy - ny * w);
+      g.closePath();
+      g.fill();
+      const cg = g.createRadialGradient(hx, hy, 0, hx, hy, headR * 4.5);
+      cg.addColorStop(0, rgba(col, 0.5));
+      cg.addColorStop(1, 'transparent');
+      g.fillStyle = cg;
+      g.beginPath(); g.arc(hx, hy, headR * 4.5, 0, 6.283); g.fill();
+      drawStar(hx, hy, headR, col, 22);
+    };
+
+    const draw = (now = 0) => {
+      raf = requestAnimationFrame(draw);
+      if (now - last < 24) return;
+      last = now;
+      if (!reduced) t += 1;
+      g.clearRect(0, 0, W, H);
+
+      let a: { x: number; y: number }, b: { x: number; y: number }, dir: { x: number; y: number }, mother: { x: number; y: number };
+      if (vert) {
+        const gx = 20, y0 = 4, y1 = H - 58;
+        a = { x: gx, y: y0 }; b = { x: gx, y: y1 };
+        dir = { x: 0, y: -1 };
+        mother = { x: gx, y: y1 + 22 };
+      } else {
+        const x0 = W * 0.02, ly = H * 0.33;
+        const mx = Math.min(W - 84, W * 0.9);
+        a = { x: x0, y: ly }; b = { x: mx - 96, y: ly };
+        dir = { x: -1, y: 0 };
+        mother = { x: mx, y: ly };
+      }
+      const at = (f: number) => ({ x: a.x + (b.x - a.x) * f, y: a.y + (b.y - a.y) * f });
+      const bob = reduced ? 0 : Math.sin(t * 0.03) * 3;
+
+      // timeline line — under-glow, then a bright gradient core that runs
+      // all the way into the mother comet
+      const lg = g.createLinearGradient(a.x, a.y, mother.x, mother.y);
+      lg.addColorStop(0, 'rgba(150,120,255,0.28)');
+      lg.addColorStop(0.3, 'rgba(160,130,255,0.6)');
+      lg.addColorStop(0.78, 'rgba(196,178,255,0.96)');
+      lg.addColorStop(1, 'rgba(255,255,255,0.98)');
+      g.lineCap = 'round';
+      g.strokeStyle = 'rgba(142,108,255,0.16)'; g.lineWidth = 12;
+      g.beginPath(); g.moveTo(a.x, a.y); g.lineTo(mother.x, mother.y); g.stroke();
+      g.strokeStyle = lg; g.lineWidth = 3;
+      g.beginPath(); g.moveTo(a.x, a.y); g.lineTo(b.x, b.y); g.stroke();
+
+      // pulse travelling toward the present
+      if (!reduced) {
+        const pp = (t * 0.0038) % 1.5;
+        if (pp <= 1) {
+          const pt = at(pp);
+          const pgr = g.createRadialGradient(pt.x, pt.y, 0, pt.x, pt.y, 22);
+          pgr.addColorStop(0, `rgba(255,255,255,${0.55 * Math.sin(pp * Math.PI)})`);
+          pgr.addColorStop(1, 'transparent');
+          g.fillStyle = pgr;
+          g.beginPath(); g.arc(pt.x, pt.y, 22, 0, 6.283); g.fill();
+        }
+      }
+
+      // nodes
+      TJ_STOPS.forEach((s, i) => {
+        const p = at(s.nf);
+        const hov = openRef.current === i + 1;
+        const pulse = 0.78 + 0.22 * Math.sin(t * 0.05 + i * 1.7);
+        const glowR = (hov ? 34 : 19) * pulse;
+        const ng = g.createRadialGradient(p.x, p.y, 0, p.x, p.y, glowR);
+        ng.addColorStop(0, rgba(s.accent, hov ? 0.9 : 0.45));
+        ng.addColorStop(1, 'transparent');
+        g.fillStyle = ng;
+        g.beginPath(); g.arc(p.x, p.y, glowR, 0, 6.283); g.fill();
+        drawStar(p.x, p.y, (hov ? 9 : 6) * pulse + 1, s.accent, 14);
+      });
+
+      // comets: two babies flanking the mother, then the mother on top
+      const my = mother.y + bob;
+      const b1 = { x: mother.x + (vert ? -14 : -40), y: my + (vert ? -34 : -66) + Math.sin(t * 0.024) * 7 };
+      const b2 = { x: mother.x + (vert ? 14 : 26), y: my + (vert ? 24 : 58) + Math.cos(t * 0.02) * 9 };
+      comet(b1.x, b1.y, dir.x, dir.y, vert ? 42 : 118, vert ? 4 : 6.5, vert ? 3.5 : 5.5, '#cbb8ff');
+      comet(b2.x, b2.y, dir.x, dir.y, vert ? 34 : 100, vert ? 3.5 : 5.5, vert ? 3 : 4.5, '#b9a4ff');
+      comet(mother.x, my, dir.x, dir.y, vert ? 78 : Math.min(mother.x - W * 0.05, 440), vert ? 9 : 18, vert ? 8 : 15, '#b6a0ff');
+
+      // sparks shed by every comet head
+      if (!reduced && t % 3 === 0) {
+        [{ x: mother.x, y: my }, b1, b2].forEach((e, si) => {
+          if (sparks.length > 90) return;
+          sparks.push({
+            x: e.x, y: e.y,
+            vx: dir.x * (0.5 + Math.random() * 1.5) + (Math.random() - 0.5) * 0.7,
+            vy: dir.y * (0.5 + Math.random() * 1.5) + (Math.random() - 0.5) * 0.7,
+            life: 0, max: 32 + Math.random() * 44,
+            r: (si === 0 ? 1 : 0.7) + Math.random() * 1.2,
+            c: Math.random() < 0.55 ? '#ffffff' : '#c4a6ff',
+          });
+        });
+      }
+      for (let i = sparks.length - 1; i >= 0; i--) {
+        const sp = sparks[i];
+        sp.life++; sp.x += sp.vx; sp.y += sp.vy; sp.vx *= 0.985; sp.vy *= 0.985;
+        const al = 1 - sp.life / sp.max;
+        if (al <= 0) { sparks.splice(i, 1); continue; }
+        g.globalAlpha = al * 0.85;
+        g.fillStyle = sp.c;
+        g.beginPath(); g.arc(sp.x, sp.y, Math.max(0.4, sp.r * al), 0, 6.283); g.fill();
+      }
+      g.globalAlpha = 1;
+    };
+
+    if (reduced) draw();
+    else raf = requestAnimationFrame(draw);
+    const ro = new ResizeObserver(resize);
+    ro.observe(c);
+    addEventListener('resize', resize);
+    return () => { cancelAnimationFrame(raf); ro.disconnect(); removeEventListener('resize', resize); };
+  }, [inView, canvasRef]);
+
   return (
-    <div className="trajectory-comet-container" aria-hidden="true">
-      <div className="trajectory-main-beam" />
-      <div className="star-comet mother">
-        <svg viewBox="0 0 340 90" className="comet-svg">
-          <defs>
-            <linearGradient id="motherTailGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#8e6cff" stopOpacity="0" />
-              <stop offset="55%" stopColor="#a78fff" stopOpacity="0.45" />
-              <stop offset="100%" stopColor="#ffffff" stopOpacity="0.95" />
-            </linearGradient>
-          </defs>
-          <path d="M 0 45 Q 200 43 280 18 C 286 28 292 34 304 45 C 292 56 286 62 280 72 Q 200 47 0 45 Z" fill="url(#motherTailGrad)" />
-          <g transform="translate(280, 21) scale(0.48)">
-            <path fill="#ffffff" d="M50 0C55 27 66 42 100 50C66 58 55 73 50 100C45 73 34 58 0 50C34 42 45 27 50 0Z" style={{ filter: 'drop-shadow(0 0 15px #ffffff) drop-shadow(0 0 35px #a78fff)' }} />
-          </g>
-        </svg>
-      </div>
-      {[
-        { id: 1, color: '#ff6e91', delay: '0s', dur: '4.2s', yAmp: 30, scale: 0.65 },
-        { id: 2, color: '#38bdf8', delay: '1.2s', dur: '4.8s', yAmp: -26, scale: 0.55 },
-        { id: 3, color: '#a8ff60', delay: '2.4s', dur: '4.0s', yAmp: 22, scale: 0.6 },
-        { id: 4, color: '#c084fc', delay: '3.6s', dur: '4.5s', yAmp: -32, scale: 0.5 },
-      ].map((b) => (
-        <div key={b.id} className={`star-comet baby baby-${b.id}`} style={{ '--b-color': b.color, '--b-delay': b.delay, '--b-dur': b.dur, '--b-amp': `${b.yAmp}px`, '--b-scale': b.scale } as React.CSSProperties}>
-          <svg viewBox="0 0 200 60" className="comet-svg">
-            <defs>
-              <linearGradient id={`babyTail_${b.id}`} x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor={b.color} stopOpacity="0" />
-                <stop offset="65%" stopColor={b.color} stopOpacity="0.6" />
-                <stop offset="100%" stopColor="#ffffff" stopOpacity="0.9" />
-              </linearGradient>
-            </defs>
-            <path d="M 0 30 Q 120 28 160 12 C 164 20 168 24 176 30 C 168 36 164 40 160 48 Q 120 32 0 30 Z" fill={`url(#babyTail_${b.id})`} />
-            <g transform="translate(160, 12) scale(0.36)">
-              <path fill="#ffffff" d="M50 0C55 27 66 42 100 50C66 58 55 73 50 100C45 73 34 58 0 50C34 42 45 27 50 0Z" style={{ filter: `drop-shadow(0 0 10px ${b.color}) drop-shadow(0 0 20px #ffffff)` }} />
-            </g>
-          </svg>
-        </div>
-      ))}
+    <div className="tj-field">
+      <canvas ref={canvasRef} className="tj-canvas" aria-hidden="true" />
+      <ul className="tj-nodes" aria-label="Career timeline">
+        {TJ_STOPS.map((s, i) => {
+          const n = i + 1;
+          const isOpen = open === n;
+          return (
+            <li
+              key={s.company}
+              className={`tj-node${isOpen ? ' is-open' : ''}`}
+              style={{ '--acc': s.accent, '--nf': s.nf } as React.CSSProperties}
+            >
+              <button
+                type="button"
+                className="tj-hit"
+                aria-expanded={isOpen}
+                onMouseEnter={() => setOpen(n)}
+                onMouseLeave={() => setOpen((o) => (o === n ? null : o))}
+                onFocus={() => setOpen(n)}
+                onBlur={() => setOpen((o) => (o === n ? null : o))}
+                onClick={() => setOpen((o) => (o === n ? null : n))}
+              >
+                <span className="tj-star" aria-hidden="true">
+                  <NovaStar style={{ width: '100%', height: '100%', margin: 0, filter: 'none' }} />
+                </span>
+                <span className="tj-mini">
+                  <span className="tj-mini-date">{t(s.date)}</span>
+                  <span className="tj-mini-co">{t(s.company)}</span>
+                </span>
+              </button>
+              <div className="tj-card">
+                <span className="tj-card-date">{t(s.date)}</span>
+                <span className="tj-card-role">{t(s.role)}</span>
+                <h3 className="tj-card-co">{t(s.company)}</h3>
+                <p className="tj-card-desc">{t(s.desc)}</p>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 }
@@ -64,7 +249,7 @@ const projects = [
  {n:'01',title:'Potter Mobile+',kind:'FULL-STACK COMMERCE',outcome:'A production commerce platform spanning storefront, trade-in, stock, booking, PromptPay payments, live support, AI-assisted pricing, and a complete admin backoffice.',role:'Product design · Full-stack development',year:'2026',tools:'Next.js 16 · Supabase · Claude API',accent:'#75aaff',sigil:'P+',orbit:'COMMERCE / AI / PAYMENTS',href:'/work/potter-mobile-plus'},
  {n:'02',title:'Potter Mobile Pawn',kind:'PRODUCTION PWA',outcome:'A production pawn-management system covering contracts, signatures, interest, redemption, cash ledger, role access, and multi-branch audit trails.',role:'Full-stack product development',year:'2026',tools:'Next.js 16 · Supabase · Puppeteer',accent:'#8cffc1',sigil:'PP',orbit:'PWA / CONTRACTS / OPERATIONS',href:'/work/potter-mobile-pawn'},
  {n:'03',title:'Polaris',kind:'SYSTEM + EXTENSION',outcome:'A real-time case reporting dashboard and browser extension connecting support workflows with a legacy enterprise system.',role:'System design · Development',year:'2026',tools:'Next.js · TypeScript · Browser extension',accent:'#a8ff60',sigil:'PX',orbit:'DASHBOARD / EXTENSION / SYNC',href:'/work/polaris'},
-];const experienceStops = [{date:'exp_1_date',role:'exp_1_role',company:'exp_1_company',desc:'exp_1_desc',accent:'#ff6e91'},{date:'exp_2_date',role:'exp_2_role',company:'exp_2_company',desc:'exp_2_desc',accent:'#38bdf8'},{date:'exp_3_date',role:'exp_3_role',company:'exp_3_company',desc:'exp_3_desc',accent:'#a8ff60'}] as const;
+];
 const archive = [
  ['2026','Potter Mobile Plus','CODE','Product design & full-stack development','Next.js / Supabase / Claude API','/work/potter-mobile-plus'],
  ['2026','Potter Mobile Pawn','CODE','Full-stack product development','Next.js / Supabase / Puppeteer / PWA','/work/potter-mobile-pawn'],
@@ -164,7 +349,7 @@ const showToast=(msg:string)=>{setToastMsg(msg);setTimeout(()=>setToastMsg(''),3
   <header className="topbar"><BrandMark href="#origin" label="Punnathat Samoprong — home" onClick={()=>showToast('✦ NOVA CORE: SINGULARITY ENGAGED')}/><nav className="topbar-constellation" aria-label="Constellation Navigation">{sections.map(([id,label],i)=>{const isActive=active===id;return <a key={id} href={'#'+id} className={`topbar-star-node ${isActive?'active':''}`} title={`0${i} ${label}`} aria-current={isActive?'location':undefined}><span className="star-icon">✦</span></a>;})}</nav><div className="topbar-actions"><LangToggle/></div></header>
   <section id="origin" className="hero section hero-centered"><SolarSystemCanvas/><div className="coordinates">13.7563° N<br/>100.5018° E</div><div className="hero-copy hero-copy-centered"><div className="hero-eyebrow-capsule"><span className="eyebrow-dot" aria-hidden="true"/><p className="eyebrow">{t('hero_eyebrow')}</p></div><h1><span className="h1-line">{t('hero_h1_a')}</span><span className="h1-line">{t('hero_h1_b')} <em>{t('hero_h1_em')}</em></span></h1><div className="hero-meta-centered"><p>{t('hero_meta')}</p></div><div className="actions actions-centered"><a className="button primary" href="#work">{t('hero_cta_explore')} <ArrowDownRight className="ico" aria-hidden="true"/></a><a className="button" href="/Punnathat_Samoprong_Resume.pdf" download>{t('hero_cta_resume')} <Download className="ico" aria-hidden="true"/></a></div></div><div className="scroll-cue"><span>{t('hero_scroll_cue')}</span><i/></div></section>
   <section id="identity" className="identity section"><div className="section-index"><span>01</span><p>{t('sec_identity')}</p></div><RevealBurst delay={0.1}><div className="portrait-wrap interactive-portrait" onClick={()=>showToast('✦ PUNNATHAT SAMOPRONG: CREATIVE TECHNOLOGIST [AUTHENTICATED]')}><div className="portrait-frame"><Image src="/profile.png" alt="Portrait of Punnathat Samoprong" fill sizes="(max-width:800px) 82vw,38vw" priority/></div></div></RevealBurst><RevealBurst delay={0.25}><div className="identity-copy"><p className="eyebrow">{t('id_eyebrow')}</p><h2>{t('id_h2_a')} <em>{t('id_h2_em')}</em></h2><p className="lead">{t('id_lead')}</p><div className="identity-meta"><span style={{display:'inline-flex',alignItems:'center'}}><ThaiFlag/>{t('id_meta_location')} {timeStr && <b style={{fontWeight:400,opacity:.75,marginLeft:'8px',fontFamily:'var(--font-mono)',fontSize:'11px'}}>• {timeStr}</b>}</span><span className="identity-available"><i/>{t('id_meta_available')}</span><a href="/Punnathat_Samoprong_Resume.pdf" download>{t('id_resume')} <b>↓</b></a></div><div className="keywords"><span className="keyword-tag"><i>✦</i> {t('kw_fullstack')}</span><span className="keyword-tag"><i>✦</i> {t('kw_erp')}</span><span className="keyword-tag"><i>✦</i> {t('kw_uxui')}</span><span className="keyword-tag"><i>✦</i> {t('kw_ct')}</span></div></div></RevealBurst></section>
-  <section id="experience" className="experience section"><div className="section-index"><span>02</span><p>{t('sec_experience')}</p></div><RevealBurst delay={0}><div className="trajectory-heading"><p className="eyebrow">{t('exp_eyebrow')}</p><h2>{t('exp_h2_a')} <em>{t('exp_h2_em')}</em></h2><p>{t('exp_intro')}</p></div></RevealBurst><div className="trajectory" style={{position:'relative'}}><TrajectoryComets/>{experienceStops.map((item,i)=><RevealBurst key={item.company} delay={.12+i*.16} className={`trajectory-stop stop-${i+1}`} style={{'--accent':item.accent} as React.CSSProperties}><article style={{borderColor:`color-mix(in srgb, ${item.accent} 40%, transparent)`,background:`linear-gradient(135deg, color-mix(in srgb, ${item.accent} 9%, transparent), color-mix(in srgb, ${item.accent} 1.5%, transparent))`}}><span className="trajectory-date">{t(item.date)}</span><i className="trajectory-node" aria-hidden="true" style={{background:'none',border:'none',display:'flex',alignItems:'center',justify:'center'}}><NovaStar style={{color:item.accent,width:'15px',height:'17px',marginLeft:0,filter:`drop-shadow(0 0 8px ${item.accent})`}}/></i><p style={{color:item.accent}}>{t(item.role)}</p><h3 style={{color:item.company.includes('BIGWORK')?'#d9ffc7':'#ffffff'}}>{t(item.company)}</h3><small>{t(item.desc)}</small></article></RevealBurst>)}</div></section>
+  <section id="experience" className="experience section"><div className="section-index"><span>02</span><p>{t('sec_experience')}</p></div><RevealBurst delay={0}><div className="trajectory-heading"><p className="eyebrow">{t('exp_eyebrow')}</p><h2>{t('exp_h2_a')} <em>{t('exp_h2_em')}</em></h2><p>{t('exp_intro')}</p></div></RevealBurst><RevealBurst delay={0.12}><TrajectoryField/></RevealBurst></section>
   <section id="capabilities" className="capabilities section"><div className="section-index"><span>03</span><p>{t('sec_capabilities')}</p></div><RevealBurst delay={0}><div className="section-heading"><p className="eyebrow">{t('cap_eyebrow')}</p><h2>{t('cap_h2_a')} <em>{t('cap_h2_em')}</em></h2></div></RevealBurst><div className="portals">{[
       {title:'VISUAL',accent:'#ff5d82',filter:'DESIGN',skills:'Brand identity|Graphic design|Campaign artwork|Typography|Motion & 3D',tools:['PS','AI','AE','BLENDER']},
       {title:'EXPERIENCE',accent:'#5596ff',filter:'UX/UI',skills:'UX research|Information architecture|Wireframes|Prototypes|Design systems',tools:['FIGMA','MIRO','PROTOTYPING']},
