@@ -20,9 +20,9 @@ function NovaStar({className="",style={}}:{className?:string;style?:React.CSSPro
    node to raise its detail card. Canvas does the motion; a DOM layer does
    the labels + interaction. Collapses to a vertical list on phones. */
 const TJ_STOPS = [
-  { date: 'exp_1_date', role: 'exp_1_role', company: 'exp_1_company', desc: 'exp_1_desc', accent: '#ff6e91', nf: 0.12 },
-  { date: 'exp_2_date', role: 'exp_2_role', company: 'exp_2_company', desc: 'exp_2_desc', accent: '#5bc8ff', nf: 0.4 },
-  { date: 'exp_3_date', role: 'exp_3_role', company: 'exp_3_company', desc: 'exp_3_desc', accent: '#9cff71', nf: 0.66 },
+  { date: 'exp_1_date', role: 'exp_1_role', company: 'exp_1_company', desc: 'exp_1_desc', accent: '#ff6e91', nf: 0 },
+  { date: 'exp_2_date', role: 'exp_2_role', company: 'exp_2_company', desc: 'exp_2_desc', accent: '#5bc8ff', nf: 0.5 },
+  { date: 'exp_3_date', role: 'exp_3_role', company: 'exp_3_company', desc: 'exp_3_desc', accent: '#9cff71', nf: 1 },
 ] as const;
 const TJ_STAR_PATH = 'M50 0C55 27 66 42 100 50C66 58 55 73 50 100C45 73 34 58 0 50C34 42 45 27 50 0Z';
 
@@ -104,37 +104,58 @@ function TrajectoryField() {
       const bob = reduced ? 0 : Math.sin(t * 0.028) * (vert ? 5 : 9);
       const drift = reduced ? 0 : Math.sin(t * 0.019 + 1.3) * (vert ? 4 : 7);
       let nodeAt: (f: number) => { x: number; y: number };
+      let lineAt: (f: number) => { x: number; y: number };
       let strokeLine: (lw: number, style: string | CanvasGradient) => void;
       let dir: { x: number; y: number };
       let mother: { x: number; y: number };
-      let lineStart: { x: number; y: number }, lineEnd: { x: number; y: number };
+      let lineStart: { x: number; y: number };
+
+      // one quadratic Bézier point helper (straight P0→P1, then curve P1→ctrl→P2)
+      const bez = (p0: number, p1: number, p2: number, u: number) =>
+        (1 - u) * (1 - u) * p0 + 2 * (1 - u) * u * p1 + u * u * p2;
 
       if (vert) {
-        const gx = 22, y0 = 4, y1 = H - 54;
-        const yk = y0 + (y1 - y0) * 0.76;
-        mother = { x: gx + drift, y: y1 + 18 + bob };
+        const gx = 36, y0 = 4, y1 = H - 54;
+        const yk = y0 + (y1 - y0) * 0.72;
+        const my2 = y1 + 18 + bob;
+        mother = { x: gx + drift, y: my2 };
         dir = { x: 0, y: -1 };
-        lineStart = { x: gx, y: y0 }; lineEnd = { x: gx, y: yk };
-        nodeAt = (f) => ({ x: gx, y: y0 + (yk - y0) * f });
+        lineStart = { x: gx, y: y0 };
+        const nsy = y0 + (yk - y0) * 0.06, ney = y0 + (yk - y0) * 0.94;
+        nodeAt = (f) => ({ x: gx, y: nsy + (ney - nsy) * f });
+        const cy = yk + (my2 - yk) * 0.5;
+        lineAt = (f) => {
+          const py = y0 + (my2 - y0) * f;
+          if (py <= yk) return { x: gx, y: py };
+          const u = (py - yk) / (my2 - yk);
+          return { x: bez(gx, gx, mother.x, u), y: bez(yk, cy, my2, u) };
+        };
         strokeLine = (lw, style) => {
           g.strokeStyle = style; g.lineWidth = lw; g.lineCap = 'round';
           g.beginPath();
           g.moveTo(gx, y0); g.lineTo(gx, yk);
-          g.quadraticCurveTo(gx, yk + (mother.y - yk) * 0.5, mother.x, mother.y);
+          g.quadraticCurveTo(gx, cy, mother.x, my2);
           g.stroke();
         };
       } else {
-        const sx = W * 0.03, mx = Math.min(W - 280, W * 0.8), ly = H * 0.5;
-        const xk = W * 0.62;
+        const ly = H * 0.5, mx = Math.min(W - 150, W * 0.93), xk = W * 0.8;
+        const nsx = W * 0.22, nex = W * 0.66;
         mother = { x: mx, y: ly + bob };
         dir = { x: -1, y: 0 };
-        lineStart = { x: sx, y: ly }; lineEnd = { x: xk, y: ly };
-        nodeAt = (f) => ({ x: sx + (xk - sx) * f, y: ly });
+        lineStart = { x: 0, y: ly };
+        nodeAt = (f) => ({ x: nsx + (nex - nsx) * f, y: ly });
+        const cx = xk + (mx - xk) * 0.5;
+        lineAt = (f) => {
+          const px = f * mx;
+          if (px <= xk) return { x: px, y: ly };
+          const u = (px - xk) / (mx - xk);
+          return { x: bez(xk, cx, mx, u), y: bez(ly, ly, mother.y, u) };
+        };
         strokeLine = (lw, style) => {
           g.strokeStyle = style; g.lineWidth = lw; g.lineCap = 'round';
           g.beginPath();
-          g.moveTo(sx, ly); g.lineTo(xk, ly);
-          g.quadraticCurveTo(xk + (mx - xk) * 0.5, ly, mx, mother.y);
+          g.moveTo(0, ly); g.lineTo(xk, ly);
+          g.quadraticCurveTo(cx, ly, mx, mother.y);
           g.stroke();
         };
       }
@@ -148,32 +169,34 @@ function TrajectoryField() {
         drawStar(hx, hy, headR, col, 26);
       };
 
-      // timeline line: straight, then a flexing whip into the (moving) mother
+      // timeline line: fades in from the far edge, dead straight through the
+      // markers, then a flexing whip into the (moving) mother
       const lg = g.createLinearGradient(lineStart.x, lineStart.y, mother.x, mother.y);
-      lg.addColorStop(0, 'rgba(150,120,255,0.32)');
-      lg.addColorStop(0.28, 'rgba(168,138,255,0.66)');
-      lg.addColorStop(0.72, 'rgba(202,184,255,0.96)');
+      lg.addColorStop(0, 'rgba(150,120,255,0)');
+      lg.addColorStop(0.12, 'rgba(150,120,255,0.24)');
+      lg.addColorStop(0.4, 'rgba(170,140,255,0.68)');
+      lg.addColorStop(0.78, 'rgba(204,186,255,0.97)');
       lg.addColorStop(1, 'rgba(255,255,255,1)');
-      strokeLine(vert ? 22 : 30, 'rgba(142,108,255,0.13)');
-      strokeLine(vert ? 4 : 5.4, lg);
+      strokeLine(vert ? 24 : 34, 'rgba(142,108,255,0.12)');
+      strokeLine(vert ? 4 : 5.6, lg);
       g.save();
       g.globalCompositeOperation = 'lighter';
       const wg = g.createLinearGradient(nodeAt(1).x, nodeAt(1).y, mother.x, mother.y);
       wg.addColorStop(0, 'rgba(200,180,255,0)');
-      wg.addColorStop(1, 'rgba(255,255,255,0.6)');
-      strokeLine(vert ? 12 : 16, wg);
+      wg.addColorStop(1, 'rgba(255,255,255,0.62)');
+      strokeLine(vert ? 12 : 18, wg);
       g.restore();
 
-      // pulse travelling toward the present
+      // pulse travelling the whole line toward the present
       if (!reduced) {
-        const pp = (t * 0.0038) % 1.5;
+        const pp = (t * 0.0033) % 1.5;
         if (pp <= 1) {
-          const pt = nodeAt(pp);
-          const pgr = g.createRadialGradient(pt.x, pt.y, 0, pt.x, pt.y, 26);
+          const pt = lineAt(pp);
+          const pgr = g.createRadialGradient(pt.x, pt.y, 0, pt.x, pt.y, 28);
           pgr.addColorStop(0, `rgba(255,255,255,${0.6 * Math.sin(pp * Math.PI)})`);
           pgr.addColorStop(1, 'transparent');
           g.fillStyle = pgr;
-          g.beginPath(); g.arc(pt.x, pt.y, 26, 0, 6.283); g.fill();
+          g.beginPath(); g.arc(pt.x, pt.y, 28, 0, 6.283); g.fill();
         }
       }
 
@@ -193,27 +216,30 @@ function TrajectoryField() {
 
       // comets: two babies with their own tails, then the mother (tail = the line)
       const my = mother.y;
-      const b1 = { x: mother.x + (vert ? -24 : -196), y: my + (vert ? -56 : -150) + Math.sin(t * 0.024) * 11 };
-      const b2 = { x: mother.x + (vert ? 22 : 72), y: my + (vert ? 46 : 128) + Math.cos(t * 0.02) * 13 };
-      comet(b1.x, b1.y, dir.x, dir.y, vert ? 62 : 260, vert ? 7 : 16, vert ? 6 : 15, '#ccb9ff');
-      comet(b2.x, b2.y, dir.x, dir.y, vert ? 50 : 210, vert ? 6 : 13, vert ? 5.5 : 12, '#bba6ff');
+      const b1 = { x: mother.x + (vert ? -24 : -210), y: my + (vert ? -56 : -140) + Math.sin(t * 0.024) * 11 };
+      const b2 = { x: mother.x + (vert ? 22 : -84), y: my + (vert ? 46 : 116) + Math.cos(t * 0.02) * 13 };
+      comet(b1.x, b1.y, dir.x, dir.y, vert ? 62 : 280, vert ? 7 : 17, vert ? 6 : 15, '#ccb9ff');
+      comet(b2.x, b2.y, dir.x, dir.y, vert ? 50 : 220, vert ? 6 : 14, vert ? 5.5 : 12, '#bba6ff');
       // two soft wisps trailing the mother for volume, then her head
       drawHead(mother.x + dir.x * (vert ? 26 : 56), my + dir.y * (vert ? 26 : 56), vert ? 13 : 26, '#ad96ff');
       drawHead(mother.x + dir.x * (vert ? 52 : 112), my + dir.y * (vert ? 52 : 112), vert ? 9 : 17, '#9c85f5');
       drawHead(mother.x, my, vert ? 22 : 44, '#c8b3ff');
 
-      // sparks shed by every comet head
-      if (!reduced && t % 3 === 0) {
-        [{ x: mother.x, y: my }, b1, b2].forEach((e, si) => {
-          if (sparks.length > 90) return;
-          sparks.push({
-            x: e.x, y: e.y,
-            vx: dir.x * (0.5 + Math.random() * 1.5) + (Math.random() - 0.5) * 0.7,
-            vy: dir.y * (0.5 + Math.random() * 1.5) + (Math.random() - 0.5) * 0.7,
-            life: 0, max: 32 + Math.random() * 44,
-            r: (si === 0 ? 1 : 0.7) + Math.random() * 1.2,
-            c: Math.random() < 0.55 ? '#ffffff' : '#c4a6ff',
-          });
+      // sparks shed continuously by every comet head
+      if (!reduced && t % 2 === 0) {
+        [{ x: mother.x, y: my, n: 3 }, { ...b1, n: 2 }, { ...b2, n: 2 }].forEach((e, si) => {
+          for (let k = 0; k < e.n; k++) {
+            if (sparks.length > 260) break;
+            const spd = 0.5 + Math.random() * 2.4;
+            sparks.push({
+              x: e.x + (Math.random() - 0.5) * 6, y: e.y + (Math.random() - 0.5) * 6,
+              vx: dir.x * spd + (Math.random() - 0.5) * 1.1,
+              vy: dir.y * spd + (Math.random() - 0.5) * 1.1,
+              life: 0, max: 28 + Math.random() * 52,
+              r: (si === 0 ? 1.1 : 0.7) + Math.random() * 1.4,
+              c: Math.random() < 0.5 ? '#ffffff' : (Math.random() < 0.6 ? '#c9b6ff' : '#a98cff'),
+            });
+          }
         });
       }
       for (let i = sparks.length - 1; i >= 0; i--) {
