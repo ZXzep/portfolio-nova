@@ -158,6 +158,10 @@ export const projects: Project[] = [
       th: 'ระบบบน Docker ที่มีเส้นทางการทำงานพร้อมกันซึ่งผ่านการทดสอบ อนุญาตให้มีผู้ชนะเพียงคนเดียวเมื่อคำขอพร้อมกันพุ่งไปที่นั่งเดียวกัน',
     },
     external: { label: L.source, href: 'https://github.com/ZXzep/cinema-booking-system' },
+    links: [
+      { label: L.live, href: 'https://cinema-booking-alpha.vercel.app' },
+      { label: L.source, href: 'https://github.com/ZXzep/cinema-booking-system' },
+    ],
   },
   {
     slug: 'polaris', title: 'Polaris', category: 'CODE', period: '2026', accent: '#a8ff60',
@@ -205,6 +209,61 @@ export const projects: Project[] = [
       th: 'สะพานเชื่อมที่ใช้งานได้จริง ระหว่างแดชบอร์ดเรียลไทม์สมัยใหม่กับสภาพแวดล้อมองค์กรเดิมของทีมซัพพอร์ต',
     },
     external: { label: L.live, href: 'https://ma-report-app.vercel.app' },
+  },
+  {
+    slug: 'reading-list', title: 'Reading List', category: 'CODE', period: '2025', accent: '#5fd6c4',
+    hero: '', gallery: [], tools: ['React', 'TypeScript', 'Vite', 'Express', 'Prisma', 'SQLite', 'Zod', 'Vitest'],
+    label: { en: 'Full-stack reading tracker', th: 'ตัวติดตามการอ่านแบบ full-stack' },
+    role: { en: 'Full-stack development', th: 'พัฒนา full-stack' },
+    summary: {
+      en: 'A full-stack app for tracking books to read, in progress, or finished — each with one author and any number of tags — on a database that enforces its own integrity rules.',
+      th: 'แอป full-stack สำหรับติดตามหนังสือที่อยากอ่าน กำลังอ่าน หรืออ่านจบแล้ว แต่ละเล่มมีผู้เขียนหนึ่งคนและแท็กกี่อันก็ได้ บนฐานข้อมูลที่บังคับกฎความถูกต้องของตัวเอง',
+    },
+    overview: {
+      en: 'Reading List pairs a React + TypeScript single-page app with an Express REST API and a Prisma-managed SQLite database. Filtering by status, search, and tag runs on the server; the interface adds a custom status dropdown, a star rating tied to book state, and a reusable tag input.',
+      th: 'Reading List จับคู่ single-page app ที่เขียนด้วย React + TypeScript เข้ากับ REST API ฝั่ง Express และฐานข้อมูล SQLite ที่จัดการด้วย Prisma การกรองตามสถานะ คำค้น และแท็กทำงานฝั่งเซิร์ฟเวอร์ ส่วนหน้าจอเพิ่ม dropdown สถานะแบบทำเอง ดาวให้คะแนนที่ผูกกับสถานะหนังสือ และช่องใส่แท็กที่ใช้ซ้ำได้',
+    },
+    challenge: {
+      en: 'Data had to stay correct without relying on the API layer alone. Foreign keys, an enum-style status check, and the rule that a rating can exist only on a finished book all needed to hold at the database itself, not just in request handlers.',
+      th: 'ข้อมูลต้องถูกต้องโดยไม่พึ่งแค่เลเยอร์ API foreign key, การเช็คสถานะแบบ enum และกฎที่ว่าคะแนนมีได้เฉพาะหนังสือที่อ่านจบแล้ว ทั้งหมดต้องบังคับที่ตัวฐานข้อมูลเอง ไม่ใช่แค่ใน handler ของแต่ละ request',
+    },
+    contribution: {
+      en: [
+        'Modeled Author–Book–Tag relations in Prisma with an explicit join table so cascade behavior is visible.',
+        'Hand-edited the migration to add SQLite CHECK constraints Prisma cannot express — status enum, rating range, and rating-only-when-finished.',
+        'Built the Express API with zod validation, server-side filtering, and error mapping that returns 400/404/409 instead of 500.',
+        'Built the React client: server-driven filters, debounced search, custom status / rating / tag components, and explicit loading, error, and empty states.',
+      ],
+      th: [
+        'ออกแบบความสัมพันธ์ Author–Book–Tag ใน Prisma ด้วย join table ที่เขียนออกมาชัด เพื่อให้เห็นพฤติกรรม cascade',
+        'แก้ไฟล์ migration ด้วยมือเพื่อเพิ่ม CHECK constraint ของ SQLite ที่ Prisma เขียนไม่ได้ — enum สถานะ ช่วงคะแนน และคะแนนมีได้เฉพาะตอนอ่านจบ',
+        'สร้าง API ฝั่ง Express พร้อม zod validation การกรองฝั่งเซิร์ฟเวอร์ และการ map error ให้คืน 400/404/409 แทน 500',
+        'สร้าง React client: ตัวกรองที่ขับด้วยเซิร์ฟเวอร์ ค้นหาแบบ debounce คอมโพเนนต์สถานะ/คะแนน/แท็กแบบทำเอง และสถานะ loading, error, empty ที่จัดการชัดเจน',
+      ],
+    },
+    decisions: {
+      en: [
+        'Chose SQLite + Prisma so the repo runs after just npm install, while still enforcing foreign keys and CHECKs at the database — a one-line datasource change swaps in Postgres.',
+        'Blocked deleting an author who still has books (onDelete: Restrict) rather than cascading away reading history.',
+        'Kept filtering on the server so the list always reflects the real query, never a client-side subset.',
+        'Built custom status and rating controls instead of native inputs, to carry per-option icons and colours and mirror the database constraints in the UI.',
+      ],
+      th: [
+        'เลือก SQLite + Prisma เพื่อให้ repo รันได้หลัง npm install เฉย ๆ แต่ยังบังคับ foreign key และ CHECK ที่ฐานข้อมูล — เปลี่ยน datasource บรรทัดเดียวก็สลับไป Postgres ได้',
+        'บล็อกการลบผู้เขียนที่ยังมีหนังสืออยู่ (onDelete: Restrict) แทนที่จะ cascade ลบประวัติการอ่านทิ้ง',
+        'ให้การกรองทำงานฝั่งเซิร์ฟเวอร์ เพื่อให้รายการสะท้อนผลค้นจริงเสมอ ไม่ใช่ชุดย่อยที่กรองฝั่ง client',
+        'ทำคอนโทรลสถานะและคะแนนเอง แทน input มาตรฐาน เพื่อให้ใส่ไอคอน/สีรายตัวเลือกได้ และสะท้อน constraint ของฐานข้อมูลในหน้าจอ',
+      ],
+    },
+    result: {
+      en: 'A tested full-stack app — Vitest with supertest on the API, React Testing Library on the client — where the database itself rejects invalid state, deployed with the client on Vercel and the API on Render.',
+      th: 'แอป full-stack ที่มีเทสต์ — Vitest กับ supertest ฝั่ง API และ React Testing Library ฝั่ง client — ที่ฐานข้อมูลปฏิเสธสถานะที่ไม่ถูกต้องด้วยตัวเอง ดีพลอยโดยวาง client บน Vercel และ API บน Render',
+    },
+    external: { label: L.live, href: 'https://reading-list-weld-ten.vercel.app' },
+    links: [
+      { label: L.live, href: 'https://reading-list-weld-ten.vercel.app' },
+      { label: L.source, href: 'https://github.com/ZXzep/reading-list-app' },
+    ],
   },
   {
     slug: 'codelabs-tech', title: 'CodeLabs Tech', category: 'UX/UI', period: '2025', accent: '#6fa8ff',

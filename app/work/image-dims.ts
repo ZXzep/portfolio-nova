@@ -107,7 +107,6 @@ export const imageDims: Record<string, readonly [number, number]> = {
   "/case-studies/tic-tactics/18.png": [1151, 647],
   "/case-studies/university-3d-project/01.png": [1800, 1012],
   "/favicon.svg": [24, 24],
-  "/profile-source.png": [645, 645],
   "/profile.png": [645, 645],
   "/work/codelabs.png": [1600, 1391],
   "/work/minddojo-live.png": [1080, 1080],

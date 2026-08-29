@@ -20,6 +20,7 @@ const archive = [
  ['2026','Potter Mobile Plus','CODE','Product design & full-stack development','Next.js / Supabase / Claude API','/work/potter-mobile-plus'],
  ['2026','Cinema Ticket Booking System','CODE','Full-stack development','Go / Vue 3 / MongoDB / Redis','/work/cinema-ticket-booking-system'],
  ['2026','Polaris','CODE','System design & development','Next.js / TypeScript / Chrome extension','/work/polaris'],
+ ['2025','Reading List','CODE','Full-stack REST API & typed React SPA','React / Express / Prisma / SQLite','/work/reading-list'],
  ['2025','CodeLabs Tech','UX/UI','UX/UI + graphic & brand design · incl. AI Solutions Marketplace','Figma / Illustrator / Canva','/work/codelabs-tech'],
  ['2025','MindDojo','DESIGN','Graphic design for events & media','Illustrator / Canva','/work/minddojo'],
  ['—','TA Recruitment','UX/UI','Requirements, wireframes & UX/UI design','Figma','/work/ta-recruitment'],
@@ -82,7 +83,7 @@ function renderProjectTitle(title: string) {
   return <span className="clean-project-title">{title}</span>;
 }
 
-export default function Home(){const t=useT();const{lang}=useLang();const[active,setActive]=useState('origin');const[progress,setProgress]=useState(0);const[filter,setFilter]=useState('ALL');const[contactOpen,setContactOpen]=useState(false);const[isWarping,setIsWarping]=useState(false);const[toastMsg,setToastMsg]=useState('');const[formState,setFormState]=useState({name:'',email:'',message:''});const[sentStatus,setSentStatus]=useState(false);const filtered=useMemo(()=>filter==='ALL'?archive:archive.filter(p=>p[2]===filter),[filter]);const showToast=(msg:string)=>{setToastMsg(msg);setTimeout(()=>setToastMsg(''),3500);};const copyEmail=(e?:React.MouseEvent)=>{if(e)e.preventDefault();navigator.clipboard.writeText('zephyrxzep@gmail.com');showToast(t('toast_copied'));};const handleStartProject=()=>{setIsWarping(true);showToast('🕳️ WARP DRIVE: SINGULARITY ENTRY ENGAGED');setTimeout(()=>{setContactOpen(true);setIsWarping(false);},420);};const handleSubmit=(e:React.FormEvent)=>{e.preventDefault();setSentStatus(true);showToast(t('toast_sent'));setTimeout(()=>{window.location.href=`mailto:zephyrxzep@gmail.com?subject=Project Inquiry from ${encodeURIComponent(formState.name)}&body=${encodeURIComponent(formState.message)}`;setSentStatus(false);setContactOpen(false);},1200);};useEffect(()=>{let guardUntil=0;const scroll=()=>{setProgress(Math.min(100,scrollY/(document.documentElement.scrollHeight-innerHeight)*100));let current='origin';for(const[id]of sections){const e=document.getElementById(id);if(e&&e.getBoundingClientRect().top<innerHeight*.48)current=id}setActive(current);history.replaceState(null,'','#'+current);if(Date.now()>guardUntil){try{sessionStorage.setItem('home:y',String(Math.round(scrollY)))}catch{}}};try{const y=+(sessionStorage.getItem('home:y')||0);const ts=+(sessionStorage.getItem('home:restore')||0);if(y>0&&(Date.now()-ts<8000||document.referrer.includes('/work/'))){guardUntil=Date.now()+600;const r=()=>scrollTo({top:y,behavior:'auto'});r();requestAnimationFrame(r);setTimeout(r,60);setTimeout(r,200);setTimeout(r,400)}sessionStorage.removeItem('home:restore')}catch{}scroll();addEventListener('scroll',scroll,{passive:true});const heroEl=document.getElementById('origin');const hio=heroEl?new IntersectionObserver(([e])=>document.body.classList.toggle('hero-out',!e.isIntersecting),{rootMargin:'80px'}):null;if(heroEl&&hio)hio.observe(heroEl);return()=>{removeEventListener('scroll',scroll);hio?.disconnect();document.body.classList.remove('hero-out')}},[]);return <main>
+export default function Home(){const t=useT();const{lang}=useLang();const[active,setActive]=useState('origin');const[progress,setProgress]=useState(0);const[filter,setFilter]=useState('ALL');const[contactOpen,setContactOpen]=useState(false);const[isWarping,setIsWarping]=useState(false);const[toastMsg,setToastMsg]=useState('');const[formState,setFormState]=useState({name:'',email:'',message:''});const[sentStatus,setSentStatus]=useState(false);const filtered=useMemo(()=>filter==='ALL'?archive:archive.filter(p=>p[2]===filter),[filter]);const showToast=(msg:string)=>{setToastMsg(msg);setTimeout(()=>setToastMsg(''),3500);};const copyEmail=(e?:React.MouseEvent)=>{if(e)e.preventDefault();navigator.clipboard.writeText('zephyrxzep@gmail.com');showToast(t('toast_copied'));};const handleStartProject=()=>{setIsWarping(true);showToast('🕳️ WARP DRIVE: SINGULARITY ENTRY ENGAGED');setTimeout(()=>{setContactOpen(true);setIsWarping(false);},420);};const handleSubmit=async(e:React.FormEvent)=>{e.preventDefault();setSentStatus(true);const accessKey=process.env.NEXT_PUBLIC_WEB3FORMS_KEY||'e37912b4-8540-46f6-8324-b6c7e89c7dec';try{const res=await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({access_key:accessKey,name:formState.name,email:formState.email,message:formState.message,subject:`✦ Portfolio Project Inquiry from ${formState.name}`,from_name:formState.name})});const data=await res.json();if(data.success||res.ok){showToast('✓ ส่งข้อความเข้าอีเมลเรียบร้อยแล้ว!');setFormState({name:'',email:'',message:''});}else{showToast('❌ เกิดข้อผิดพลาดในการส่งข้อความ');}}catch{showToast('❌ ไม่สามารถส่งข้อความได้ กรุณาตรวจสอบอินเทอร์เน็ต');}finally{setSentStatus(false);setContactOpen(false);}};useEffect(()=>{let guardUntil=0;const scroll=()=>{setProgress(Math.min(100,scrollY/(document.documentElement.scrollHeight-innerHeight)*100));let current='origin';for(const[id]of sections){const e=document.getElementById(id);if(e&&e.getBoundingClientRect().top<innerHeight*.48)current=id}setActive(current);history.replaceState(null,'','#'+current);if(Date.now()>guardUntil){try{sessionStorage.setItem('home:y',String(Math.round(scrollY)))}catch{}}};try{const y=+(sessionStorage.getItem('home:y')||0);const ts=+(sessionStorage.getItem('home:restore')||0);if(y>0&&(Date.now()-ts<8000||document.referrer.includes('/work/'))){guardUntil=Date.now()+600;const r=()=>scrollTo({top:y,behavior:'auto'});r();requestAnimationFrame(r);setTimeout(r,60);setTimeout(r,200);setTimeout(r,400)}sessionStorage.removeItem('home:restore')}catch{}scroll();addEventListener('scroll',scroll,{passive:true});const heroEl=document.getElementById('origin');const hio=heroEl?new IntersectionObserver(([e])=>document.body.classList.toggle('hero-out',!e.isIntersecting),{rootMargin:'80px'}):null;if(heroEl&&hio)hio.observe(heroEl);return()=>{removeEventListener('scroll',scroll);hio?.disconnect();document.body.classList.remove('hero-out')}},[]);return <main>
   <Universe/><div className="noise" aria-hidden="true"/>
   <header className="topbar"><BrandMark href="#origin" label="Punnathat Samoprong — home" onClick={()=>showToast('✦ NOVA CORE: SINGULARITY ENGAGED')}/><nav className="topbar-constellation" aria-label="Constellation Navigation">{sections.map(([id,label],i)=>{const isActive=active===id;return <a key={id} href={'#'+id} className={`topbar-star-node ${isActive?'active':''}`} title={`0${i} ${label}`} aria-current={isActive?'location':undefined}><span className="star-icon">✦</span></a>;})}</nav><div className="topbar-actions"><LangToggle/><button onClick={()=>{setContactOpen(true);showToast('● STATUS ONLINE: TRANSMISSION OPEN')}} className="topbar-work-btn" title="Click to open contact modal"><i className="status-green-dot" aria-hidden="true"/><span className="btn-txt-short">{t('nav_available_short')}</span><span className="btn-txt-full">{t('nav_available_full')}</span></button></div></header>
   <section id="origin" className="hero section hero-centered"><SolarSystemCanvas/><div className="coordinates">13.7563° N<br/>100.5018° E</div><div className="hero-copy hero-copy-centered"><div className="hero-eyebrow-capsule"><span className="eyebrow-dot" aria-hidden="true"/><p className="eyebrow">{t('hero_eyebrow')}</p></div><h1><span className="h1-line">{t('hero_h1_a')}</span><span className="h1-line">{t('hero_h1_b')} <em>{t('hero_h1_em')}</em></span></h1><div className="hero-meta-centered"><p>{t('hero_meta')}</p></div><div className="actions actions-centered"><a className="button primary" href="#work">{t('hero_cta_explore')} <ArrowDownRight className="ico" aria-hidden="true"/></a><a className="button" href="/Punnathat_Samoprong_Resume.pdf" download>{t('hero_cta_resume')} <Download className="ico" aria-hidden="true"/></a></div></div><div className="scroll-cue"><span>{t('hero_scroll_cue')}</span><i/></div></section>
@@ -100,33 +101,38 @@ export default function Home(){const t=useT();const{lang}=useLang();const[active
  {contactOpen && (
   <div className="modal-overlay" onClick={(e)=>e.target===e.currentTarget&&setContactOpen(false)}>
    <div className="singularity-core-bg" aria-hidden="true"/>
-   <div className="modal-content celestial-portal" role="dialog" aria-modal="true">
+   <div className="modal-card celestial-portal" role="dialog" aria-modal="true">
     <button className="modal-close" onClick={()=>setContactOpen(false)} aria-label="Close modal"><X className="ico" aria-hidden="true"/></button>
     <div className="modal-header">
-     <div className="modal-badge"><i/>{t('md_badge')}</div>
-     <h3>{t('md_title')}</h3>
-     <p>{t('md_intro')}</p>
+     <p className="eyebrow">{t('md_badge')}</p>
+     <h3>{t('md_h3_a')} <em>{t('md_h3_em')}</em></h3>
+     <p className="lead">{t('md_intro')}</p>
     </div>
     <div className="modal-quick-actions">
-     <button className="modal-action-btn" onClick={copyEmail}>
-      <span>✦ {t('md_copy')}</span>
-      <b>zephyrxzep@gmail.com</b>
-     </button>
-     <a className="modal-action-btn" href="mailto:zephyrxzep@gmail.com">
-      <span>✦ {t('md_open_mail')}</span>
-      <b>zephyrxzep@gmail.com <ArrowUpRight className="ico" aria-hidden="true"/></b>
+     <a className="modal-action-card" href="mailto:zephyrxzep@gmail.com">
+      <span className="action-title">{t('md_open_mail')}</span>
+      <span className="action-value">zephyrxzep@gmail.com <ArrowUpRight className="ico" aria-hidden="true"/></span>
      </a>
-     <a className="modal-action-btn" href="tel:+66987070173">
-      <span>✦ {t('md_call')}</span>
-      <b>+66 098-707-0173 <ArrowUpRight className="ico" aria-hidden="true"/></b>
+     <a className="modal-action-card" href="tel:+66987070173">
+      <span className="action-title">{t('md_call')}</span>
+      <span className="action-value">+66 098-707-0173 <ArrowUpRight className="ico" aria-hidden="true"/></span>
      </a>
     </div>
-    <div className="modal-divider"><span>✦ {t('md_divider')} ✦</span></div>
+    <div className="modal-divider"><span>{t('md_divider')}</span></div>
     <form className="modal-form" onSubmit={handleSubmit}>
-     <div className="starlight-field"><span className="field-star-bullet">✦</span><input type="text" placeholder={t('md_ph_name')} required value={formState.name} onChange={(e)=>setFormState({...formState,name:e.target.value})}/></div>
-     <div className="starlight-field"><span className="field-star-bullet">✦</span><input type="email" placeholder={t('md_ph_email')} required value={formState.email} onChange={(e)=>setFormState({...formState,email:e.target.value})}/></div>
-     <div className="starlight-field"><span className="field-star-bullet">✦</span><textarea placeholder={t('md_ph_msg')} required value={formState.message} onChange={(e)=>setFormState({...formState,message:e.target.value})}/></div>
-     <button type="submit" className="modal-submit-btn starlight-submit">{sentStatus?t('md_sending'):<><span>✦</span> {t('md_send')} <ArrowUpRight className="ico" aria-hidden="true"/></>}</button>
+     <div className="modal-input-group">
+      <label>{t('md_label_name')}</label>
+      <input type="text" placeholder={t('md_ph_name')} required value={formState.name} onChange={(e)=>setFormState({...formState,name:e.target.value})}/>
+     </div>
+     <div className="modal-input-group">
+      <label>{t('md_label_email')}</label>
+      <input type="email" placeholder={t('md_ph_email')} required value={formState.email} onChange={(e)=>setFormState({...formState,email:e.target.value})}/>
+     </div>
+     <div className="modal-input-group">
+      <label>{t('md_label_msg')}</label>
+      <textarea placeholder={t('md_ph_msg')} required value={formState.message} onChange={(e)=>setFormState({...formState,message:e.target.value})}/>
+     </div>
+     <button type="submit" className="modal-submit-btn">{sentStatus?t('md_sending'):<>{t('md_send')} <ArrowUpRight className="ico" aria-hidden="true"/></>}</button>
     </form>
    </div>
   </div>

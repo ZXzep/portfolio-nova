@@ -30,6 +30,7 @@ const archDescTh: Record<string, string> = {
   'Potter Mobile Plus': 'ออกแบบโปรดักต์ & พัฒนา full-stack',
   'Cinema Ticket Booking System': 'พัฒนา full-stack',
   Polaris: 'ออกแบบระบบ & พัฒนา',
+  'Reading List': 'REST API + React SPA แบบ typed · integrity ระดับฐานข้อมูล',
   'CodeLabs Tech': 'UX/UI + งานกราฟิก & แบรนด์ · รวม AI Solutions Marketplace',
   MindDojo: 'งานกราฟิกสำหรับอีเวนต์และสื่อ',
   'TA Recruitment': 'เก็บ requirement, ทำ wireframe & ออกแบบ UX/UI',

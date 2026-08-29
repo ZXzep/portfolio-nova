@@ -188,47 +188,48 @@ body.hero-out .hero-reactor-wrap,body.hero-out .hero-reactor-wrap *{animation-pl
 .contact-content-wrap{transition:transform .5s cubic-bezier(.16,1,.3,1),opacity .4s ease,filter .4s ease;position:relative;z-index:10!important}
 .contact-content-wrap.warped-sucked{transform:scale(.05) rotate(25deg)!important;opacity:0!important;filter:blur(20px)!important;pointer-events:none!important}
 
-/* Black Hole Singularity Pure Pitch-Black Void Overlay */
+/* Black Hole Singularity Pure Pitch-Black Void Overlay (No Card / No Frame) */
 .modal-overlay{position:fixed;inset:0;z-index:9999;background:#030306!important;display:grid;place-items:center;padding:24px;animation:fadeIn .35s forwards;overflow-y:auto}
-.singularity-core-bg{position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 50% 50%,rgba(142,108,255,0.22) 0%,rgba(74,40,167,0.08) 40%,rgba(3,3,6,1) 75%);z-index:0}
+.singularity-core-bg{position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 50% 45%,rgba(142,108,255,0.22) 0%,rgba(74,40,167,0.07) 42%,#030306 78%);z-index:0}
 
-/* Pure Floating Celestial Objects (No Card Container) */
-.modal-content.celestial-portal{width:min(580px,90vw)!important;background:none!important;border:none!important;box-shadow:none!important;border-radius:0!important;padding:0!important;position:relative;z-index:10;display:flex;flex-direction:column;gap:24px}
+/* Pure Floating Elements inside Singularity Void (No Card Container / No Border) */
+.modal-card.celestial-portal{width:min(540px,90vw)!important;background:none!important;border:none!important;box-shadow:none!important;border-radius:0!important;padding:0!important;position:relative;z-index:10;display:flex;flex-direction:column;gap:24px}
 
-/* Close Button Floating Top-Right */
-.modal-close{position:absolute;top:-10px;right:-10px;background:rgba(255,255,255,.05);border:1px solid rgba(167,143,255,.3);color:#a09fa8;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;cursor:pointer;font-size:14px;transition:all .3s ease;z-index:20}
-.modal-close:hover{color:#fff;border-color:#8e6cff;background:rgba(142,108,255,.25);box-shadow:0 0 20px rgba(142,108,255,.4);transform:rotate(90deg) scale(1.08)}
+/* Floating Close Button Top-Right */
+.modal-close{position:absolute;top:-12px;right:-12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);color:#a09fa8;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;cursor:pointer;font-size:14px;transition:all .3s cubic-bezier(.16,1,.3,1);z-index:20}
+.modal-close:hover{color:#fff;border-color:#a78fff;background:rgba(142,108,255,.2);box-shadow:0 0 20px rgba(142,108,255,.4);transform:rotate(90deg) scale(1.08)}
 
-/* Header Typography */
-.modal-header{display:flex;flex-direction:column;gap:6px}
-.modal-badge{display:inline-flex;align-items:center;gap:8px;padding:4px 12px;border-radius:9999px;background:rgba(142,108,255,.12);border:1px solid rgba(142,108,255,.3);color:#c4b5ff;font:11px var(--font-mono);letter-spacing:.16em;width:fit-content}
-.modal-badge i{display:inline-block;width:6px;height:6px;border-radius:50%;background:#9cff71;box-shadow:0 0 10px #9cff71}
-.modal-header h3{font-size:clamp(28px,3.8vw,40px);letter-spacing:-.04em;color:#ffffff;font-weight:700;margin:4px 0 0}
-.modal-header p{color:#a5a4af;font-size:14px;line-height:1.5;margin:0}
+/* Header Typography (Matched to Main Web Sections) */
+.modal-header{display:flex;flex-direction:column;gap:4px}
+.modal-header .eyebrow{margin:0}
+.modal-header h3{font-size:clamp(28px,4vw,42px);letter-spacing:-.04em;color:#ffffff;font-weight:600;margin:6px 0 8px;line-height:1.08}
+.modal-header h3 em{font-family:Georgia,serif;font-weight:400;font-style:italic;color:#a78fff}
+html[lang="th"] .modal-header h3 em{font-family:var(--font-thai),Georgia,serif;font-style:normal}
+.modal-header .lead{color:#c0bfca;font-size:15px;line-height:1.6;margin:0}
 
-/* Quick Action Vertical Stack */
-.modal-quick-actions{display:flex;flex-direction:column;gap:10px;width:100%}
-.modal-action-btn{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border:none;border-bottom:1px solid rgba(167,143,255,.18);background:transparent;color:#f5f3ee;font:13px var(--font-mono);letter-spacing:.08em;cursor:pointer;transition:all .3s ease;text-decoration:none}
-.modal-action-btn:hover{border-bottom-color:#8e6cff;background:rgba(142,108,255,.08);color:#fff;box-shadow:0 4px 20px -2px rgba(142,108,255,.3);transform:translateX(4px)}
-.modal-action-btn span{color:#a78fff;font-weight:500}
-.modal-action-btn b{font-weight:400;color:#fff}
+/* Quick Action Stack (Matched to Site Archive Rows) */
+.modal-quick-actions{display:flex;flex-direction:column;gap:0;width:100%;border-top:1px solid rgba(255,255,255,.12)}
+.modal-action-card{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border:none;border-bottom:1px solid rgba(255,255,255,.12);background:transparent;color:#e4e3ee;font:12px var(--font-mono);letter-spacing:.12em;cursor:pointer;transition:all .3s cubic-bezier(.16,1,.3,1);text-decoration:none}
+.modal-action-card:hover{border-bottom-color:#8e6cff;color:#fff;padding-left:8px}
+.modal-action-card .action-title{color:#8e7ce6;font:11px var(--font-mono);letter-spacing:.16em;text-transform:uppercase}
+.modal-action-card .action-value{font-weight:400;color:#ffffff;display:inline-flex;align-items:center;gap:8px;font:13px var(--font-mono)}
 
 /* Divider Line */
-.modal-divider{display:flex;align-items:center;gap:14px;color:#a78fff;font:10px var(--font-mono);letter-spacing:.18em;margin:8px 0}
-.modal-divider:before,.modal-divider:after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(167,143,255,.3),transparent)}
+.modal-divider{display:flex;align-items:center;gap:14px;color:#888794;font:11px var(--font-mono);letter-spacing:.18em;margin:6px 0}
+.modal-divider:before,.modal-divider:after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.14),transparent)}
 
-/* Starlight Underline Form Fields */
+/* Form Inputs (Matched to Main Web Data Lists) */
 .modal-form{display:flex;flex-direction:column;gap:18px;width:100%}
-.starlight-field{position:relative;display:flex;align-items:center;width:100%}
-.field-star-bullet{position:absolute;left:4px;font-size:12px;color:#a78fff;text-shadow:0 0 10px #8e6cff;pointer-events:none;z-index:2;transition:all .3s ease}
-.starlight-field input,.starlight-field textarea{width:100%;padding-left:28px!important;padding-right:12px!important;padding-bottom:10px!important;background:transparent!important;border:none!important;border-bottom:1px solid rgba(167,143,255,.3)!important;border-radius:0!important;color:#fff!important;font:15px var(--font-sans)!important;outline:none!important;transition:all .35s cubic-bezier(.16,1,.3,1)!important}
-.starlight-field textarea{padding-top:8px!important;min-height:80px!important;resize:vertical}
-.starlight-field input:focus,.starlight-field textarea:focus{border-bottom-color:#8e6cff!important;box-shadow:0 6px 24px -2px rgba(142,108,255,.55)!important;background:rgba(142,108,255,.03)!important}
-.starlight-field:focus-within .field-star-bullet{color:#fff;text-shadow:0 0 16px #8e6cff,0 0 30px #fff;transform:scale(1.35) rotate(15deg)}
+.modal-input-group{position:relative;width:100%;border-bottom:1px solid rgba(255,255,255,.16);padding-bottom:6px;transition:all .3s ease}
+.modal-input-group:focus-within{border-bottom-color:#8e6cff}
+.modal-input-group label{display:block;font:11px var(--font-mono);letter-spacing:.16em;color:#8e7ce6;text-transform:uppercase;margin-bottom:6px}
+.modal-input-group input,.modal-input-group textarea{width:100%;background:transparent!important;border:none!important;outline:none!important;color:#ffffff!important;font:15px/1.5 var(--font-sans)!important;padding:4px 0!important;border-radius:0!important;box-shadow:none!important}
+.modal-input-group input::placeholder,.modal-input-group textarea::placeholder{color:rgba(255,255,255,.3)!important;font-size:14px!important}
+.modal-input-group textarea{min-height:80px!important;resize:vertical}
 
-/* Submit Action Button */
-.starlight-submit{height:52px;border-radius:9999px;border:1px solid rgba(196,166,255,.6)!important;background:linear-gradient(135deg,#8e6cff,#503baa)!important;color:#ffffff;font:13px var(--font-mono);font-weight:600;letter-spacing:.16em;cursor:pointer;transition:all .35s cubic-bezier(.16,1,.3,1);display:flex;align-items:center;justify-content:center;gap:12px;box-shadow:0 0 45px rgba(142,108,255,.55)!important;margin-top:8px}
-.starlight-submit:hover{background:linear-gradient(135deg,#a78fff,#6843ec)!important;box-shadow:0 0 75px rgba(142,108,255,.9),0 10px 30px #0009!important;transform:translateY(-3px) scale(1.015)!important}
+/* Standardized 52px Submit Action Button */
+.modal-submit-btn{height:52px!important;padding:0 28px!important;border-radius:9999px!important;border:1px solid rgba(167,143,255,0.5)!important;background:linear-gradient(135deg,#8e6cff,#503baa)!important;color:#ffffff!important;font:12px var(--font-mono)!important;font-weight:600!important;letter-spacing:.16em!important;cursor:pointer;transition:all .35s cubic-bezier(.16,1,.3,1)!important;display:flex;align-items:center;justify-content:center;gap:12px;box-shadow:0 0 40px rgba(142,108,255,0.5)!important;margin-top:8px}
+.modal-submit-btn:hover{background:#8e6cff!important;box-shadow:0 0 60px rgba(142,108,255,0.85)!important;transform:translateY(-2px)}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes scaleUp{from{transform:scale(.92)}to{transform:scale(1)}}
 
@@ -418,3 +419,45 @@ body.hero-out .hero-reactor-wrap,body.hero-out .hero-reactor-wrap *{animation-pl
 .contact-button{margin:36px 0;height:52px;padding:0 28px;border-radius:9999px;border:1px solid rgba(142,108,255,.5);background:linear-gradient(135deg,rgba(142,108,255,.16),rgba(142,108,255,.04));color:#f5f3ee;display:inline-flex;align-items:center;justify-content:center;gap:18px;font:12px var(--font-mono);letter-spacing:.16em;font-weight:500;backdrop-filter:blur(12px);box-shadow:0 0 30px #8e6cff2b,inset 0 0 15px #8e6cff1f;transition:.4s cubic-bezier(.16,1,.3,1)}.contact-button b{font-weight:400;font-size:16px;color:#8e6cff;transition:.3s cubic-bezier(.16,1,.3,1)}.contact-button:hover{background:#8e6cff;color:#050505;border-color:#a78fff;box-shadow:0 0 55px #8e6cff88,0 10px 30px #0008;transform:translateY(-3px)}.contact-button:hover b{color:#050505;transform:translate(3px,-3px)}
 .identity-meta{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;margin-top:34px;padding-top:18px;border-top:1px solid rgba(255,255,255,.13);font:11px var(--font-mono);letter-spacing:.15em;color:#aaa9b4}.identity-meta>span{display:inline-flex;align-items:center;min-height:28px}.identity-meta>a{margin-left:auto;height:52px;padding:0 28px;border-radius:9999px;border:1px solid rgba(167,143,255,.45);background:linear-gradient(135deg,rgba(167,143,255,.16),rgba(167,143,255,.04));color:#f5f3ee;font:12px var(--font-mono);letter-spacing:.16em;font-weight:500;backdrop-filter:blur(12px);box-shadow:0 0 25px rgba(142,108,255,.2);transition:all .35s cubic-bezier(.16,1,.3,1);text-decoration:none;display:inline-flex;align-items:center;justify-content:center}.identity-meta>a:hover{background:#8e6cff;color:#050505;border-color:#a78fff;box-shadow:0 0 50px rgba(142,108,255,.7),0 10px 25px rgba(0,0,0,.5);transform:translateY(-3px)}.identity-meta a b{margin-left:10px;font-size:14px;transition:transform .3s}.identity-meta>a:hover b{transform:translateY(3px)}.identity-available{color:#caffb4}.identity-available i{width:6px;height:6px;margin-right:9px;border-radius:50%;background:#9cff71;box-shadow:0 0 10px #9cff71}.identity-copy .keywords{margin-top:22px}.portrait-wrap{padding-bottom:0}
 @media(max-width:600px){.identity-meta{align-items:flex-start;flex-direction:column;gap:10px}.identity-meta>a{margin-left:0;width:100%}.identity-copy .keywords{margin-top:20px}}
+/* ============================================================
+   Mobile fixes  (keep at file end — appended last on purpose)
+   ============================================================ */
+@media (max-width: 760px) {
+  /* Top bar: the 7-star section nav doesn't fit next to the brand +
+     the work button — drop it and give the row two columns. */
+  .topbar { grid-template-columns: 1fr auto; }
+  .topbar-constellation { display: none; }
+}
+
+@media (max-width: 600px) {
+  /* Headings that still force `white-space:nowrap` and overflow the
+     viewport on a phone. */
+  .contact h2 {
+    white-space: normal;
+    font-size: clamp(30px, 8.6vw, 44px);
+    line-height: 1.12;
+    letter-spacing: -0.03em;
+  }
+  .hero h1,
+  .case h1,
+  .case-section-head h2,
+  .section-heading h2,
+  .identity h2,
+  .trajectory-heading h2 {
+    letter-spacing: -0.035em;
+    overflow-wrap: anywhere;
+  }
+  .section-heading h2,
+  .identity h2 { font-size: clamp(30px, 8.4vw, 46px); }
+
+  /* Reclaim the side gutters — 22px each side is a lot on a 375 screen. */
+  .section { padding-left: 18px; padding-right: 18px; }
+  .portal { padding: 22px 18px; }
+  .case-story,
+  .case-process,
+  .case-gallery,
+  .case-result { padding-left: 18px; padding-right: 18px; }
+
+  /* Full-bleed featured project cards. */
+  .project { width: 100%; }
+}
