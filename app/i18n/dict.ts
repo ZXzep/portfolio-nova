@@ -15,7 +15,7 @@ export const dict = {
   // --- hero ---
   hero_eyebrow: {
     en: 'PUNNATHAT SAMOPRONG · BANGKOK, THAILAND / AVAILABLE WORLDWIDE',
-    th: 'ปัณณทัต สมประสงค์ (นุ) · กรุงเทพฯ ประเทศไทย / รับงานทั่วโลก',
+    th: 'ปัณณทัต สมอโพรง (นุ) · กรุงเทพฯ ประเทศไทย / รับงานทั่วโลก',
   },
   hero_h1_a: { en: 'I DESIGN EXPERIENCES', th: 'ออกแบบประสบการณ์' },
   hero_h1_b: { en: 'AND BUILD THEM', th: 'แล้วสร้างมันขึ้นมา' },
@@ -33,12 +33,12 @@ export const dict = {
   // --- identity ---
   id_namecard_role: { en: 'CREATIVE TECHNOLOGIST', th: 'CREATIVE TECHNOLOGIST' },
   id_namecard_tag: { en: 'BANGKOK, THAILAND · DESIGNER × DEVELOPER', th: 'กรุงเทพฯ ประเทศไทย · นักออกแบบ × นักพัฒนา' },
-  id_eyebrow: { en: 'ABOUT PUNNATHAT SAMOPRONG', th: 'เกี่ยวกับ ปัณณทัต สมประสงค์ (นุ)' },
+  id_eyebrow: { en: 'ABOUT PUNNATHAT SAMOPRONG', th: 'เกี่ยวกับ ปัณณทัต สมอโพรง (นุ)' },
   id_h2_a: { en: 'ONE MIND.', th: 'ความคิดเดียว' },
   id_h2_em: { en: 'MULTIPLE ORBITALS.', th: 'หลายวงโคจร' },
   id_lead: {
     en: "Hi, I'm Punnathat Samoprong (Nu)—a Creative Technologist, Full-Stack Developer, and Implementation Consultant. I bridge visual aesthetics, UX logic, data architectures, and enterprise software engineering into working digital systems.",
-    th: 'สวัสดีครับ ผม ปัณณทัต สมประสงค์ (นุ) — Creative Technologist, Full-Stack Developer และ Implementation Consultant ผมเชื่อมงานสุนทรียภาพ ตรรกะ UX สถาปัตยกรรมข้อมูล และวิศวกรรมซอฟต์แวร์องค์กร ให้กลายเป็นระบบดิจิทัลที่ใช้งานได้จริง',
+    th: 'สวัสดีครับ ผม ปัณณทัต สมอโพรง (นุ) — Creative Technologist, Full-Stack Developer และ Implementation Consultant ผมเชื่อมงานสุนทรียภาพ ตรรกะ UX สถาปัตยกรรมข้อมูล และวิศวกรรมซอฟต์แวร์องค์กร ให้กลายเป็นระบบดิจิทัลที่ใช้งานได้จริง',
   },
   id_spec1_label: { en: '01 / CURRENT ROLE', th: '01 / ตำแหน่งปัจจุบัน' },
   id_spec1_h: { en: 'PROGRAMMER & IMPLEMENTATION CONSULTANT', th: 'PROGRAMMER & IMPLEMENTATION CONSULTANT' },
@@ -175,7 +175,7 @@ export const dict = {
   cs_file: { en: 'PROJECT FILE', th: 'แฟ้มโปรเจกต์' },
   cs_study: { en: 'CASE STUDY', th: 'เคสสตัดดี้' },
   cs_back: { en: 'BACK TO ARCHIVE', th: 'กลับไปคลังผลงาน' },
-  cs_home_aria: { en: 'Punnathat Samoprong — home', th: 'ปัณณทัต สมประสงค์ — หน้าแรก' },
+  cs_home_aria: { en: 'Punnathat Samoprong — home', th: 'ปัณณทัต สมอโพรง — หน้าแรก' },
   cs_fld_role: { en: 'ROLE', th: 'บทบาท' },
   cs_fld_discipline: { en: 'DISCIPLINE', th: 'สาขางาน' },
   cs_fld_tools: { en: 'TOOLS', th: 'เครื่องมือ' },
