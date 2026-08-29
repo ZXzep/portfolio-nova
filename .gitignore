@@ -36,3 +36,10 @@ next-env.d.ts
 /.wrangler/
 /outputs/
 /work/
+
+# build artifacts / scratch
+*.tar.gz
+tsconfig.tsbuildinfo
+.claude/
+*-source.png
+*-preview.png
