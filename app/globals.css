@@ -165,9 +165,9 @@ body.hero-out .hero-reactor-wrap,body.hero-out .hero-reactor-wrap *{animation-pl
 .project-link-float:hover span{color:#050505;transform:translate(3px,-3px)}
 
 @media(max-width:960px){
-  .project,.project:nth-child(even){grid-template-columns:1fr;gap:32px}
-  .project:nth-child(even) .project-visual{order:1}
-  .project:nth-child(even) .project-copy{order:2}
+  .project,.project.even{grid-template-columns:1fr;gap:32px}
+  .project.even .project-visual{order:1}
+  .project.even .project-copy{order:2}
   .project-visual{min-height:360px}
 }
 /* Project case studies */
@@ -373,13 +373,15 @@ html[lang="th"] .modal-header h3 em{font-family:var(--font-thai),Georgia,serif;f
    pointing up — instead of the desktop horizontal streak. */
 @media (max-width: 900px){
   .mother-comet{
-    right:auto; left:1px; top:auto; bottom:30px;
-    width:220px; height:40px;
+    right:auto; left:1px; top:auto; bottom:80px;
+    width:180px; height:40px;
     transform:translateX(-50%) rotate(90deg);
     transform-origin:center;
   }
   .mother-tail{animation:none}
   .mother-aura{animation:none}
+  /* tighter glow so it doesn't get clipped by the section / viewport edge */
+  .mother-core{box-shadow:0 0 10px 2px #ffffff, 0 0 20px 6px #a78fff, 0 0 34px 10px rgba(142,108,255,0.65)}
 }
 
 /* Baby Comets Shower (ฝูงลูกดาวหางลอยตามลู่) */
