@@ -72,7 +72,8 @@ This newer Next.js portfolio contains:
 - Polaris
 - Potter Mobile Pawn
 - Potter Mobile+
-- AI Solutions Marketplace
+- CodeLabs Tech (dual UX/UI + graphic/brand role — this absorbed what was
+  previously listed separately as "AI Solutions Marketplace")
 - Other recent software projects
 
 Important folders and files:
@@ -207,7 +208,10 @@ Prioritize real, substantial work such as:
 - Cinema Ticket Booking System
 - Polaris
 - Mind DoJo
-- AI Solutions Marketplace / Codelabs
+- CodeLabs Tech (the UX/UI + graphic/brand case study — the former
+  "AI Solutions Marketplace" entry is merged into it, with a redirect
+  from the old `ai-solutions-marketplace` slug)
+- Reading List (React + Express + Prisma/SQLite full-stack CRUD)
 - Strong UX/UI, graphic design, branding, and 3D work from the original portfolio
 
 Featured projects should use large cinematic layouts, not a basic card grid.
@@ -233,12 +237,15 @@ SOMETHING UNREAL.
 
 Current implementation:
 
-- Next.js / Vinext
-- React
-- TypeScript
-- Tailwind CSS
-- Canvas 2D for the layered star field
-- CSS transforms and animation for the central universe object
+- Next.js 16 (App Router), stock toolchain — migrated off `vinext`/Cloudflare
+- React 19 + TypeScript
+- Plain CSS in `app/globals.css` (no Tailwind), design tokens as CSS variables
+- `next/font` (Geist, Geist Mono, Noto Sans Thai)
+- Canvas 2D for the layered star field and the hero solar system
+- CSS transforms and animation for the orbital / universe objects
+- Custom EN↔TH i18n in `app/i18n/` (useSyncExternalStore, no provider)
+- Deployed on Vercel (`github.com/ZXzep/portfolio-nova`, auto-deploy on push);
+  production origin from `NEXT_PUBLIC_SITE_URL`
 
 Recommended approach:
 
@@ -269,12 +276,18 @@ Recommended approach:
 
 ## Current status
 
-- The new repository has been initialized.
-- A first Creative Universe home page has been implemented.
-- The page includes Origin, Identity, Capabilities, Selected Work, Archive, and Contact.
-- A layered Canvas star field and responsive navigation are implemented.
-- Content from the two older portfolios and latest resume has begun to be consolidated.
-- The production build currently completes successfully.
+- Live on Vercel at `https://zx-portfolio-nova.vercel.app` (auto-deploy on push to `main`/`master`).
+- All sections built: Origin, Identity, Capabilities, Trajectory (career), Selected Work, Archive, Contact.
+- Full bilingual EN↔TH across chrome, home content, and every case study.
+- Typed project data in `app/work/projects.ts`; case-study routes at `/work/[slug]`
+  (static), with per-project Open Graph cards.
+- Content from both older portfolios + the latest resume is consolidated; images
+  migrated and optimized (`scripts/optimize-images.mjs`, `scripts/gen-image-dims.mjs`).
+- Layered canvas star field + hero solar system, IntersectionObserver-gated and
+  frame-capped; `prefers-reduced-motion` respected.
+- Share metadata, `sitemap.xml`, `robots.txt`, and a screenshot-based homepage OG card.
+- Live demo links wired for Cinema Ticket Booking and Reading List (Render free tier).
+- The production build completes successfully.
 
 ## Recommended next work
 
@@ -306,3 +319,5 @@ The local site normally runs at:
 ```text
 http://localhost:3000/
 ```
+
+(Next picks the next free port if 3000 is taken.)
