@@ -266,6 +266,61 @@ export const projects: Project[] = [
     ],
   },
   {
+    slug: 'lazyfit', title: 'LazyFit', category: 'CODE', period: '2026', accent: '#bef54e',
+    hero: '', gallery: [], tools: ['Next.js 14', 'TypeScript', 'Supabase', 'PostgreSQL', 'Gemini 2.5 Flash', 'Zod', 'PWA'],
+    label: { en: 'AI-first nutrition & weight-loss tracker', th: 'แอปติดตามแคลอรีและน้ำหนักที่ขับเคลื่อนด้วย AI' },
+    role: { en: 'Product design & full-stack development', th: 'ออกแบบโปรดักต์ & พัฒนา full-stack' },
+    summary: {
+      en: 'A mobile-first PWA that turns a photo or a plain-Thai sentence into a typed calorie and macro estimate, then lets an in-app coach answer questions grounded in the data you have actually logged.',
+      th: 'PWA บนมือถือที่แปลงรูปถ่ายอาหารหรือข้อความภาษาไทยเป็นค่าประเมินแคลอรีและมาโครแบบมีโครงสร้าง พร้อมโค้ชในแอปที่ตอบคำถามจากข้อมูลที่ผู้ใช้บันทึกไว้จริง',
+    },
+    overview: {
+      en: 'LazyFit is built around removing the friction that makes people quit diet apps. There is no food database and no barcode scanner — you type a dish in Thai or snap a photo, a vision model returns calories, macros, and a clean / normal / cheat category, and one tap logs it. A weekly cheat-meal quota is a first-class feature rather than a failure state, and onboarding computes a personal calorie target with a live preview while every field keeps a sensible default.',
+      th: 'LazyFit ออกแบบมาเพื่อลดขั้นตอนที่ทำให้ผู้ใช้เลิกใช้แอปไดเอต จึงไม่มีทั้งฐานข้อมูลอาหารและการสแกนบาร์โค้ด ผู้ใช้เพียงพิมพ์ชื่อเมนูเป็นภาษาไทยหรือถ่ายรูป โมเดลจะประเมินแคลอรี มาโคร และจัดหมวดมื้อเป็น clean / normal / cheat ให้บันทึกได้ในขั้นตอนเดียว โควตามื้อ cheat รายสัปดาห์เป็นฟีเจอร์หลักของระบบ ไม่ใช่สัญญาณของความล้มเหลว การตั้งค่าครั้งแรกจะคำนวณเป้าหมายแคลอรีเฉพาะบุคคลพร้อมแสดงผลทันที และทุกช่องมีค่าเริ่มต้นไว้ให้แล้ว',
+    },
+    challenge: {
+      en: 'An LLM estimate is only useful if the app can guarantee its shape and stop the model from inventing a user’s numbers. Both AI surfaces had to be strictly typed end to end, safe to expose to the public internet, and correct about “today” across timezones — without a food database to fall back on.',
+      th: 'ค่าประเมินจาก LLM จะใช้งานได้จริงก็ต่อเมื่อระบบควบคุมรูปแบบผลลัพธ์ได้แน่นอน และป้องกันไม่ให้โมเดลสร้างตัวเลขของผู้ใช้ขึ้นเอง ทั้งสองส่วนที่เรียกใช้ AI จึงต้องกำหนดชนิดข้อมูลอย่างรัดกุมตลอดเส้นทาง ปลอดภัยพอที่จะเปิดใช้งานสาธารณะ และคำนวณช่วงเวลา “วันนี้” ของผู้ใช้แต่ละคนได้ถูกต้องข้ามเขตเวลา ทั้งหมดนี้โดยไม่มีฐานข้อมูลอาหารรองรับ',
+    },
+    contribution: {
+      en: [
+        'Designed the whole product — the low-friction logging flow, the cheat-quota model, onboarding, and a non-judgemental voice carried by centralised, randomised microcopy.',
+        'Built both AI endpoints against the raw Gemini REST API from server-only code: schema-constrained decoding plus a second-pass Zod parse, number coercion, timeouts, and typed errors with a separate safe public message.',
+        'Grounded the coach chat by loading the user’s own meals, workouts, weekly summary, and weight history server-side and folding a compact snapshot into the system prompt.',
+        'Modeled the Postgres schema with Row-Level Security as the real auth layer, timezone-aware daily and weekly rollup views, and a security-invoker weekly-summary RPC.',
+        'Hand-rolled the charts (SVG sparkline, bar strip, timer ring) and a wall-clock workout timer that survives reloads, keeping the app dependency-light.',
+      ],
+      th: [
+        'ออกแบบโปรดักต์ทั้งหมด ทั้งขั้นตอนบันทึกมื้อที่กระชับ ระบบโควตามื้อ cheat การตั้งค่าครั้งแรก และโทนการสื่อสารที่ไม่ตัดสินผู้ใช้ ซึ่งควบคุมผ่าน microcopy ที่รวมศูนย์และสุ่มข้อความ',
+        'พัฒนา endpoint ฝั่ง AI ทั้งสองส่วน โดยเรียก Gemini REST API โดยตรงจากโค้ดฝั่งเซิร์ฟเวอร์เท่านั้น: บังคับผลลัพธ์ให้เป็นไปตาม schema และตรวจซ้ำด้วย Zod อีกชั้น แปลงค่าตัวเลขที่ส่งกลับมาในรูปข้อความ กำหนด timeout และแยกข้อความ error สำหรับผู้ใช้ออกจากรายละเอียดภายใน',
+        'ทำให้โค้ชแชตอ้างอิงข้อมูลจริง โดยฝั่งเซิร์ฟเวอร์จะโหลดมื้ออาหาร การออกกำลังกาย สรุปรายสัปดาห์ และประวัติน้ำหนักของผู้ใช้ มาสรุปย่อแนบไปกับ system prompt',
+        'ออกแบบฐานข้อมูล Postgres โดยใช้ Row-Level Security เป็นชั้นควบคุมสิทธิ์หลัก มี view สรุปยอดรายวันและรายสัปดาห์ที่คำนวณตามเขตเวลาผู้ใช้ และ RPC สรุปรายสัปดาห์แบบ security invoker',
+        'พัฒนากราฟทั้งหมดเอง (SVG sparkline, แถบบาร์, วงแหวนจับเวลา) และตัวจับเวลาออกกำลังกายที่อ้างอิงเวลาจริง จึงไม่คลาดเคลื่อนเมื่อโหลดหน้าใหม่ ช่วยให้แอปพึ่งพาไลบรารีภายนอกน้อยที่สุด',
+      ],
+    },
+    decisions: {
+      en: [
+        'Chose “roughly right, instantly” over “precise, but you quit in a week” — an LLM estimate with a confidence value, no food database.',
+        'Validated every boundary with Zod — API bodies, Server Action inputs, and the model’s own output — so the client always gets a valid shape or a typed error.',
+        'Made Row-Level Security the source of truth, with Server Actions re-checking the session on top rather than trusting the client.',
+        'Computed every “today” and “this week” in the user’s IANA timezone, in both TypeScript and SQL.',
+        'Kept the stack deliberately dependency-light: no chart library, no Gemini SDK, no state manager, self-hosted Thai font.',
+      ],
+      th: [
+        'เลือกแนวทาง “ประเมินคร่าว ๆ แต่ได้ทันที” แทน “แม่นยำแต่ผู้ใช้เลิกใช้ภายในสัปดาห์เดียว” จึงใช้ค่าประเมินจาก LLM ที่ระบุระดับความเชื่อมั่น โดยไม่มีฐานข้อมูลอาหาร',
+        'ตรวจสอบข้อมูลด้วย Zod ทุกจุดเชื่อมต่อ ทั้ง request ของ API อินพุตของ Server Action และผลลัพธ์จากโมเดลเอง เพื่อให้ฝั่ง client ได้รับข้อมูลที่ถูกต้องตามรูปแบบ หรือ error ที่ระบุชนิดชัดเจนเสมอ',
+        'ให้ Row-Level Security เป็นตัวกำหนดสิทธิ์ที่แท้จริง โดย Server Action ตรวจสอบ session ซ้ำอีกชั้น แทนการเชื่อถือข้อมูลจากฝั่ง client',
+        'คำนวณ “วันนี้” และ “สัปดาห์นี้” ตามเขตเวลาของผู้ใช้เสมอ ทั้งในฝั่ง TypeScript และ SQL',
+        'คุมสแตกให้พึ่งพา dependency น้อยที่สุดโดยตั้งใจ ไม่ใช้ไลบรารีกราฟ ไม่ใช้ Gemini SDK ไม่ใช้ state manager และโฮสต์ฟอนต์ไทยเอง',
+      ],
+    },
+    result: {
+      en: 'A working, installable PWA where a photo becomes a logged meal in two taps, the coach answers from real logged data instead of guesses, and the database rejects cross-user access on its own.',
+      th: 'PWA ที่ใช้งานได้จริงและติดตั้งลงอุปกรณ์ได้ บันทึกมื้ออาหารจากรูปถ่ายได้ในไม่กี่ขั้นตอน โค้ชตอบจากข้อมูลที่บันทึกไว้จริงแทนการคาดเดา และฐานข้อมูลปฏิเสธการเข้าถึงข้ามผู้ใช้ได้ด้วยตัวเอง',
+    },
+    external: { label: L.live, href: 'https://lazyfit-topaz.vercel.app/login' },
+  },
+  {
     slug: 'codelabs-tech', title: 'CodeLabs Tech', category: 'UX/UI', period: '2025', accent: '#38bdf8',
     hero: '/work/codelabs.png',
     gallery: ['01.svg', '02.png', '03.png', '04.png', '05.png'].map((x) => `/case-studies/codelabs/${x}`),

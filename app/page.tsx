@@ -302,6 +302,7 @@ const archive = [
  ['2026','Potter Mobile Pawn','CODE','Full-stack product development','Next.js / Supabase / Puppeteer / PWA','/work/potter-mobile-pawn'],
  ['2026','Polaris','CODE','System design & development','Next.js / TypeScript / Chrome extension','/work/polaris'],
  ['2026','Cinema Ticket Booking System','CODE','Full-stack development','Go / Vue 3 / MongoDB / Redis','/work/cinema-ticket-booking-system'],
+ ['2026','LazyFit','CODE','Product design & full-stack development','Next.js / Supabase / Gemini','/work/lazyfit'],
  ['2025','Reading List','CODE','Full-stack REST API & typed React SPA','React / Express / Prisma / SQLite','/work/reading-list'],
  ['2025','CodeLabs Tech','UX/UI','UX/UI + graphic & brand design · incl. AI Solutions Marketplace','Figma / Illustrator / Canva','/work/codelabs-tech'],
  ['2025','MindDojo','DESIGN','Graphic design for events & media','Illustrator / Canva','/work/minddojo'],

@@ -29,6 +29,7 @@ const archDescTh: Record<string, string> = {
   'Potter Mobile Pawn': 'พัฒนาโปรดักต์แบบ full-stack',
   'Potter Mobile Plus': 'ออกแบบโปรดักต์ & พัฒนา full-stack',
   'Cinema Ticket Booking System': 'พัฒนา full-stack',
+  LazyFit: 'ออกแบบโปรดักต์ & พัฒนา full-stack',
   Polaris: 'ออกแบบระบบ & พัฒนา',
   'Reading List': 'REST API + React SPA แบบ typed · integrity ระดับฐานข้อมูล',
   'CodeLabs Tech': 'UX/UI + งานกราฟิก & แบรนด์ · รวม AI Solutions Marketplace',
